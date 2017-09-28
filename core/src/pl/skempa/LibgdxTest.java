@@ -1,42 +1,35 @@
 package pl.skempa;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class LibgdxTest extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
 	Camera camera;
 	ShapeRenderer shapeRenderer;
 	List<Building> buildings;
+
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		camera = new OrthographicCamera(0.01f, 0.02f);
-		camera.translate(38.99f, 125.75f, 0);
+		camera = new OrthographicCamera(0.01f, 0.005f);
+		camera.translate(18.988f, 50.210f, 0);
 		shapeRenderer = new ShapeRenderer();
-		img = new Texture("badlogic.jpg");
-		 File initialFile = new File("mapFiles/mapPhenian.osm");
+		buildings=new ArrayList<>();
+		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
 		    try {
-				InputStream targetStream = new FileInputStream(initialFile);
-				buildings = new XmlUtil().readXml(targetStream); 
-				
+				buildings = new XmlUtil().readXml(xmlMap.read());
+
 				// TODO learn how to use JUnit with gradle
 				System.out.println("done");
 			} catch (IOException e) {
@@ -52,17 +45,22 @@ public class LibgdxTest extends ApplicationAdapter {
 		camera.update();
 		 shapeRenderer.setProjectionMatrix(camera.combined);
 		 shapeRenderer.begin(ShapeType.Line);
-		 shapeRenderer.setColor(1, 1, 0, 1);
-		 //shapeRenderer.line(18.988f,50.21f,18.989f,50.211f);
+		 shapeRenderer.setColor(1, 0, 0, 1);
+//		 shapeRenderer.line(18.988f,50.21f,18.989f,50.211f);
 		 drawBuildings();
 		 shapeRenderer.end();
 	}
 	
 	private void drawBuildings() {
-		for (Building building : buildings) {
-			drawBuilding(building);
+
+		for (int i=0;i<buildings.size();i++){
+			drawBuilding(buildings.get(i));
+
 		}
-		
+//		for (Building building : buildings) {
+//			drawBuilding(building);
+//		}
+		//buildings.forEach(this::drawBuilding);
 	}
 
 	private void drawBuilding(Building building) {
@@ -78,7 +76,6 @@ public class LibgdxTest extends ApplicationAdapter {
 
 	@Override
 	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
 	}
 }
