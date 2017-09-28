@@ -25,7 +25,7 @@ public class LibgdxTest extends ApplicationAdapter {
 		camera = new OrthographicCamera(0.01f, 0.005f);
 		camera.translate(18.988f, 50.210f, 0);
 		shapeRenderer = new ShapeRenderer();
-		buildings=new ArrayList<>();
+		buildings=new ArrayList<Building>();
 		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
 		    try {
 				buildings = new XmlUtil().readXml(xmlMap.read());
