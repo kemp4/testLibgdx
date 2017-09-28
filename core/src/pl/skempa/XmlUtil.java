@@ -16,10 +16,10 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 public class XmlUtil {
 
 	Array<Element> xmlNodes;
-	Map<Long,Node> nodes = new HashMap<>();
+	Map<Long,Node> nodes = new HashMap<Long,Node>();
 
 	public List<Building> readXml(InputStream input) throws IOException {
-		List<Building> buildings = new ArrayList<>();
+		List<Building> buildings = new ArrayList<Building>();
 		XmlReader xmlReader=new XmlReader();
 		Element xmlRoot = xmlReader.parse(input);
 		readXmlNodeFields(xmlRoot);
@@ -61,7 +61,7 @@ public class XmlUtil {
 	}
 
 	private List<Vector3> toPoints(Array<Element> xmlPointsInOrder) {
-		List<Vector3> points= new ArrayList<>();
+		List<Vector3> points= new ArrayList<Vector3>();
 		for(Element xmlPoint : xmlPointsInOrder) {
 			long refId = Long.parseLong((xmlPoint.getAttribute("ref")));
 			Node node = nodes.get(refId);
