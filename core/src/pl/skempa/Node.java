@@ -6,7 +6,7 @@ public class Node {
 	protected float lat;
 	protected float lon;
 
-	
+
 	public long getId() {
 		return id;
 	}

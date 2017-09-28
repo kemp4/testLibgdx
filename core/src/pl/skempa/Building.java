@@ -7,10 +7,10 @@ import com.badlogic.gdx.math.Vector3;
 
 
 public class Building {
-	
+
 	protected List<Vector3> wallPoints;
 	protected int houseNumber;
-	protected String streetName; 
+	protected String streetName;
 
 	public List<Vector3> getWallPoints() {
 		return wallPoints;

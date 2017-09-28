@@ -7,17 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 
 public class XmlUtil {
-	
-	Array<Element> xmlNodes; 
+
+	Array<Element> xmlNodes;
 	Map<Long,Node> nodes = new HashMap<>();
-	
+
 	public List<Building> readXml(InputStream input) throws IOException {
 		List<Building> buildings = new ArrayList<>();
 		XmlReader xmlReader=new XmlReader();
@@ -28,7 +28,7 @@ public class XmlUtil {
 	}
 
 	private void readBuildings(List<Building> buildings, Element xmlRoot) {
-		Array<Element> xmlWays; 
+		Array<Element> xmlWays;
 		xmlWays = xmlRoot.getChildrenByName("way");
 		for (Element xmlWay : xmlWays) {
 			Building building = toBuilding(xmlWay);
@@ -46,12 +46,12 @@ public class XmlUtil {
 
 	private Building toBuilding(Element xmlWay) {
 		Building building = new Building();
-		
+
 		//TODO get streetName and houseNumber
 		int houseNumber = xmlWay.getInt("addr:housenumber",0);
 		String streetName = xmlWay.getAttribute("addr:street", "not named street");
-		
-		
+
+
 		Array<Element> xmlPoints = xmlWay.getChildrenByName("nd");
 		List<Vector3> points = toPoints(xmlPoints);
 		building.setHouseNumber(houseNumber);
@@ -80,5 +80,5 @@ public class XmlUtil {
 		return node;
 	}
 
-	
+
 }
