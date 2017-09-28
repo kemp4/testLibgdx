@@ -53,14 +53,14 @@ public class LibgdxTest extends ApplicationAdapter {
 	
 	private void drawBuildings() {
 
-		for (int i=0;i<buildings.size();i++){
-			drawBuilding(buildings.get(i));
-
-		}
-//		for (Building building : buildings) {
-//			drawBuilding(building);
+//		for (int i=0;i<buildings.size();i++){
+//			drawBuilding(buildings.get(i));
+//
 //		}
-		//buildings.forEach(this::drawBuilding);
+		for (Building building : buildings) {
+			drawBuilding(building);
+		}
+//		buildings.forEach(this::drawBuilding);
 	}
 
 	private void drawBuilding(Building building) {
