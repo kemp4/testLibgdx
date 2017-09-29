@@ -10,8 +10,6 @@ buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.3.3'
-        
-
     }
 }
 
@@ -23,10 +21,6 @@ allprojects {
     ext {
         appName = "libgdxTest"
         gdxVersion = '1.9.6'
-        roboVMVersion = '2.3.1'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
     }
 
     repositories {
@@ -45,7 +39,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
@@ -85,11 +79,18 @@ project(":core") {
 
 
     dependencies {
+        compile project(":xmlutil")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
     }
 }
+project(":xmlutil") {
+    apply plugin: "java"
 
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    }
+}
 tasks.eclipse.doLast {
     delete ".project"
 }
