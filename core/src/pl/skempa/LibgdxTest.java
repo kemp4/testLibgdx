@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
@@ -15,7 +16,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * class for testing libgdx features
+ */
 public class LibgdxTest extends ApplicationAdapter {
+	private static final float resizeCameraSpeed = 0.03f;
+	private static final float moveCameraSpeed = 0.002f;
 	Camera camera;
 	ShapeRenderer shapeRenderer;
 	List<Building> buildings;
@@ -23,13 +29,15 @@ public class LibgdxTest extends ApplicationAdapter {
 	@Override
 	public void create () {
 		camera = new OrthographicCamera(0.01f, 0.005f);
-		camera.translate(18.988f, 50.210f, 0);
+		// TODO przemmyslec to jak modyfikowac stan z inp proc
+		Gdx.input.setInputProcessor(new MyInputProcessor(this));
 		shapeRenderer = new ShapeRenderer();
 		buildings=new ArrayList<Building>();
-		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
+		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapPhenian.osm");
 		    try {
-				buildings = new XmlUtil().readXml(xmlMap.read());
-
+				buildings = new XmlUtilImpl().readXml(xmlMap.read());
+				Vector2 cameraPosition = new XmlUtilImpl().getCameraPos(xmlMap.read());
+				camera.translate(cameraPosition.x, cameraPosition.y, 0);
 				// TODO learn how to use JUnit with gradle
 				System.out.println("done");
 			} catch (IOException e) {
@@ -46,21 +54,15 @@ public class LibgdxTest extends ApplicationAdapter {
 		 shapeRenderer.setProjectionMatrix(camera.combined);
 		 shapeRenderer.begin(ShapeType.Line);
 		 shapeRenderer.setColor(1, 0, 0, 1);
-//		 shapeRenderer.line(18.988f,50.21f,18.989f,50.211f);
 		 drawBuildings();
 		 shapeRenderer.end();
 	}
 	
 	private void drawBuildings() {
 
-//		for (int i=0;i<buildings.size();i++){
-//			drawBuilding(buildings.get(i));
-//
-//		}
 		for (Building building : buildings) {
 			drawBuilding(building);
 		}
-//		buildings.forEach(this::drawBuilding);
 	}
 
 	private void drawBuilding(Building building) {
@@ -76,6 +78,17 @@ public class LibgdxTest extends ApplicationAdapter {
 
 	@Override
 	public void dispose () {
+
+	}
+
+	public void resizeCamera(int amount) {
+		camera.viewportHeight*= 1+amount* resizeCameraSpeed;
+		camera.viewportWidth*= 1+amount* resizeCameraSpeed;
+	}
+
+
+	public void moveCamera(float screenX, float screenY) {
+		camera.translate(screenX*camera.viewportWidth*moveCameraSpeed,screenY*camera.viewportHeight*moveCameraSpeed,0.0f);
 
 	}
 }
