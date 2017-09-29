@@ -1,11 +1,11 @@
 package pl.skempa;
 
 
-import java.util.List;
-
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.List;
 
+//TODO clas name to change
 public class Building {
 
 	protected List<Vector3> wallPoints;
