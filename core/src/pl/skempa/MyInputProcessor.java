@@ -1,16 +1,17 @@
 package pl.skempa;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by skempa on 29.09.2017.
  */
 
-public class MyInputProcessor implements InputProcessor {
+public class MyInputProcessor implements InputProcessor,GestureDetector.GestureListener  {
     LibgdxTest libgdxApp;
     boolean touched=false;
-    Vector2 oldMousePos=null;
 
     public MyInputProcessor(LibgdxTest libgdxTest) {
         this.libgdxApp=libgdxTest;
@@ -45,15 +46,13 @@ public class MyInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        libgdxApp.moveCamera(-screenX+oldMousePos.x,screenY-oldMousePos.y);
-        oldMousePos=new Vector2(screenX,screenY);
-        return true;
+        libgdxApp.moveCamera(-Gdx.input.getDeltaX(),Gdx.input.getDeltaY());
+        return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
 
-        oldMousePos=new Vector2(screenX,screenY);
         return true;
     }
 
@@ -61,5 +60,51 @@ public class MyInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         libgdxApp.resizeCamera(amount);
         return true;
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        libgdxApp.resizeCamera((int)distance-(int)initialDistance);
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 }
