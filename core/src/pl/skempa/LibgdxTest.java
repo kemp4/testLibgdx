@@ -2,12 +2,15 @@ package pl.skempa;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -29,21 +32,38 @@ public class LibgdxTest extends ApplicationAdapter {
 	@Override
 	public void create () {
 		camera = new OrthographicCamera(0.01f, 0.005f);
-		// TODO przemmyslec to jak modyfikowac stan z inp proc
-		Gdx.input.setInputProcessor(new MyInputProcessor(this));
+
+//		camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//		camera.position.set(10f, 10f, 10f);
+//		camera.lookAt(0,0,0);
+//		camera.near = 1f;
+//		camera.far = 300f;
+//		camera.update();
+
+		initInput();
+
+
 		shapeRenderer = new ShapeRenderer();
 		buildings=new ArrayList<Building>();
-		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapPhenian.osm");
+		FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
 		    try {
 				buildings = new XmlUtilImpl().readXml(xmlMap.read());
 				Vector2 cameraPosition = new XmlUtilImpl().getCameraPos(xmlMap.read());
 				camera.translate(cameraPosition.x, cameraPosition.y, 0);
-				// TODO learn how to use JUnit with gradle
-				System.out.println("done");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+
+	private void initInput() {
+		// TODO przemmyslec to jak modyfikowac stan z inp proc
+		MyInputProcessor inputProcessor = new MyInputProcessor(this);
+		InputMultiplexer inputMultiplexer = new InputMultiplexer();
+		GestureDetector gestureDetector = new GestureDetector(inputProcessor);
+		inputMultiplexer.addProcessor(gestureDetector);
+		inputMultiplexer.addProcessor(inputProcessor);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
@@ -53,11 +73,14 @@ public class LibgdxTest extends ApplicationAdapter {
 		camera.update();
 		 shapeRenderer.setProjectionMatrix(camera.combined);
 		 shapeRenderer.begin(ShapeType.Line);
-		 shapeRenderer.setColor(1, 0, 0, 1);
+		 shapeRenderer.setColor(1, 1, 0, 1);
 		 drawBuildings();
 		 shapeRenderer.end();
 	}
-	
+	@Override
+	public void resize (int width, int height) {
+
+	}
 	private void drawBuildings() {
 
 		for (Building building : buildings) {
