@@ -22,7 +22,7 @@ public class PerspRenderer implements ObjectsRenderer {
     }
 
     @Override
-    public void renderObjects(Camera camera) {
+    public void renderObjects() {
 
         ShaderProgram shader = shaderWrapper.getShaderProgram();
         camera.update();
@@ -33,5 +33,15 @@ public class PerspRenderer implements ObjectsRenderer {
         shader.setUniformi("u_texture", 0);
       //  mesh.render(shader, GL20.GL_TRIANGLES);
         shader.end();
+    }
+
+    @Override
+    public void zoomCamera(float amount) {
+
+    }
+
+    @Override
+    public void moveCamera(float deltaX, float deltaY, float deltaZ) {
+
     }
 }
