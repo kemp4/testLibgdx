@@ -1,9 +1,11 @@
-package pl.skempa;
+package pl.skempa.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+
+import pl.skempa.app.LibgdxTest;
 
 /**
  * Created by skempa on 29.09.2017.
@@ -12,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 public class MyInputProcessor implements InputProcessor,GestureDetector.GestureListener  {
     LibgdxTest libgdxApp;
     boolean touched=false;
+    private final static float skala = 0.02f;
 
     public MyInputProcessor(LibgdxTest libgdxTest) {
         this.libgdxApp=libgdxTest;
@@ -94,8 +97,10 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        libgdxApp.resizeCamera((int)distance-(int)initialDistance);
-        return false;
+        float distanceDelta = distance-initialDistance;
+        int resizeAmount = (int)(distanceDelta * skala);
+        libgdxApp.resizeCamera(resizeAmount);
+        return true;
     }
 
     @Override
