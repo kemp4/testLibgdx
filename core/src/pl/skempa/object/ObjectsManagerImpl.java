@@ -15,6 +15,7 @@ import java.util.List;
 
 import pl.skempa.Building;
 import pl.skempa.XmlUtilImpl;
+import pl.skempa.model.DegreePosition;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -29,7 +30,19 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     @Override
     public void init() {
-        readBuildings();
+
+        //readBuildings();
+        callApi();
+    }
+
+    private void callApi() {
+        ObjectsDataAPIWrapper openStreetMapApiWrapper = new OpenStreetMapAPIWrapper();
+        try {
+            buildings = openStreetMapApiWrapper.getObjects(new DegreePosition(18.0f,50.0f));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("error with calling open Street Map API");
+        }
     }
 //        private void test3dOpengl() {
 //            mesh = new Mesh(true, 4, 6, VertexAttribute.Position(), VertexAttribute.ColorUnpacked(), VertexAttribute.TexCoords(0));
@@ -43,28 +56,22 @@ public class ObjectsManagerImpl implements ObjectsManager {
 //            texture = new Texture(Gdx.files.internal("textures/tekstur.png"));
 //        }
 
-    private Vector2 readBuildings() {
-        Vector2 objectsLocation=null;
+    private void readBuildings() {
+
         buildings=new ArrayList<Building>();
         FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
         try {
             buildings = new XmlUtilImpl().readXml(xmlMap.read());
-            Vector2 cameraPosition = new XmlUtilImpl().getCameraPos(xmlMap.read());
-            objectsLocation = new Vector2(cameraPosition.x, cameraPosition.y);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return objectsLocation;
     }
     @Override
     public List<Building> getObjects() {
         return buildings;
     }
 
-    @Override
-    public void update(Camera camera) {
 
-    }
 
 }

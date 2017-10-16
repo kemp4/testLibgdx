@@ -5,9 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 
-import pl.skempa.controller.Controller;
-import pl.skempa.controller.ControllerImpl;
+import pl.skempa.controller.CameraController;
+import pl.skempa.controller.CameraControllerImpl;
 import pl.skempa.input.MyInputProcessor;
+import pl.skempa.object.MapCamera;
+import pl.skempa.object.MyMapCamera;
 import pl.skempa.object.ObjectsManager;
 import pl.skempa.object.ObjectsManagerImpl;
 import pl.skempa.render.ObjectsRenderer;
@@ -20,7 +22,7 @@ public class LibgdxTest extends ApplicationAdapter {
 
 	ObjectsRenderer renderer;
 	ObjectsManager objectsManager;
-	Controller controller;
+	CameraController cameraController;
 
 	@Override
 	public void create () {
@@ -28,13 +30,14 @@ public class LibgdxTest extends ApplicationAdapter {
 		objectsManager = new ObjectsManagerImpl();
 		objectsManager.init();
 		renderer = new OrthoRenderer(objectsManager);
-		controller = new ControllerImpl(objectsManager,renderer);
+		MapCamera mapCamera = new MyMapCamera();
+		cameraController = new CameraControllerImpl(objectsManager,mapCamera);
 		initInput();
 	}
 
 	private void initInput() {
 		// TODO przemmyslec to jak modyfikowac stan z inp proc
-		MyInputProcessor inputProcessor = new MyInputProcessor(controller);
+		MyInputProcessor inputProcessor = new MyInputProcessor(cameraController);
 		InputMultiplexer inputMultiplexer = new InputMultiplexer();
 		GestureDetector gestureDetector = new GestureDetector(inputProcessor);
 		inputMultiplexer.addProcessor(gestureDetector);
