@@ -15,11 +15,7 @@ public class PerspRenderer implements ObjectsRenderer {
     private Camera camera;
     private ShaderWrapper shaderWrapper;
 
-    @Override
-    public void init() {
 
-
-    }
 
     @Override
     public void renderObjects() {
@@ -35,13 +31,5 @@ public class PerspRenderer implements ObjectsRenderer {
         shader.end();
     }
 
-    @Override
-    public void zoomCamera(float amount) {
 
-    }
-
-    @Override
-    public void moveCamera(float deltaX, float deltaY, float deltaZ) {
-
-    }
 }

@@ -16,6 +16,8 @@ import java.util.List;
 
 import pl.skempa.Building;
 import pl.skempa.XmlUtilImpl;
+import pl.skempa.object.MapCamera;
+import pl.skempa.object.MyMapCamera;
 import pl.skempa.object.ObjectsManager;
 
 /**
@@ -23,52 +25,39 @@ import pl.skempa.object.ObjectsManager;
  */
 
 public class OrthoRenderer implements ObjectsRenderer {
-    private static final float resizeCameraSpeed = 0.03f;
-    private static final float moveCameraSpeed = 0.002f;
+
     ShapeRenderer shapeRenderer;
     ObjectsManager objectsManager;
-    Camera camera;
+    MapCamera mapCamera;
     List<Building> buildings;
 
     public OrthoRenderer( ObjectsManager objectsManager) {
-        camera = new OrthographicCamera(0.01f, 0.005f);
+        mapCamera= new MyMapCamera();
         shapeRenderer = new ShapeRenderer();
         buildings=new ArrayList<Building>();
-        FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
+        //FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
         this.objectsManager=objectsManager;
         buildings = objectsManager.getObjects();
+
         // TODO set camera pos
-        camera.translate(buildings.get(0).getWallPoints().get(0));
+        mapCamera.setPosition(buildings.get(0).getWallPoints().get(0));
     }
 
-    @Override
-    public void init() {
 
-    }
 
     @Override
     public void renderObjects() {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
-        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        shapeRenderer.setProjectionMatrix(mapCamera.getMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 0, 1);
         drawBuildings();
         shapeRenderer.end();
     }
 
-    @Override
-    public void zoomCamera(float amount) {
-        float intAmount = (int)amount;
-        camera.viewportHeight*= 1+intAmount* resizeCameraSpeed;
-        camera.viewportWidth*= 1+intAmount* resizeCameraSpeed;
-    }
 
-    @Override
-    public void moveCamera(float deltaX, float deltaY, float deltaZ) {
-        camera.translate(deltaX*camera.viewportWidth*moveCameraSpeed,deltaY*camera.viewportHeight*moveCameraSpeed,0.0f);
-    }
 
     private void drawBuildings() {
         for (Building building : buildings) {

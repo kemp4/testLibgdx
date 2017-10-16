@@ -1,5 +1,6 @@
 package pl.skempa.controller;
 
+import pl.skempa.object.MapCamera;
 import pl.skempa.object.ObjectsManager;
 import pl.skempa.render.ObjectsRenderer;
 
@@ -7,23 +8,23 @@ import pl.skempa.render.ObjectsRenderer;
  * Created by skempa on 16.10.2017.
  */
 
-public class ControllerImpl implements Controller {
+public class CameraControllerImpl implements CameraController {
     private ObjectsManager objectsManager;
-    private ObjectsRenderer renderer;
+    private MapCamera camera;
 
-    public ControllerImpl(ObjectsManager objectsManager, ObjectsRenderer renderer) {
+    public CameraControllerImpl(ObjectsManager objectsManager, MapCamera camera) {
 
         this.objectsManager = objectsManager;
-        this.renderer = renderer;
+        this.camera = camera;
     }
 
     @Override
     public void zoomCamera(int amount) {
-        renderer.zoomCamera(amount);
+        camera.zoomCamera(amount);
     }
 
     @Override
     public void moveCamera(int deltaX, int deltaY) {
-        renderer.moveCamera(deltaX,deltaY,0);
+        camera.moveCamera(deltaX,deltaY,0);
     }
 }
