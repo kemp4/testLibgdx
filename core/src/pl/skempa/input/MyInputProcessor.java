@@ -5,8 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
-import pl.skempa.app.LibgdxTest;
-import pl.skempa.controller.Controller;
+import pl.skempa.controller.CameraController;
 
 /**
  * Created by skempa on 29.09.2017.
@@ -16,12 +15,12 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     //boolean touched=false;
     private final static float skala = 0.02f;
-    private Controller controller;
+    private CameraController cameraController;
 
 
 
-    public MyInputProcessor(Controller controller) {
-        this.controller = controller;
+    public MyInputProcessor(CameraController cameraController) {
+        this.cameraController = cameraController;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        controller.moveCamera(-Gdx.input.getDeltaX(),Gdx.input.getDeltaY());
+        cameraController.moveCamera(-Gdx.input.getDeltaX(),Gdx.input.getDeltaY());
         return false;
     }
 
@@ -65,7 +64,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean scrolled(int amount) {
-        controller.zoomCamera(amount);
+        cameraController.zoomCamera(amount);
         return true;
     }
 
@@ -103,7 +102,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
     public boolean zoom(float initialDistance, float distance) {
         float distanceDelta = distance-initialDistance;
         int resizeAmount = (int)(distanceDelta * skala);
-        controller.zoomCamera(resizeAmount);
+        cameraController.zoomCamera(resizeAmount);
         return true;
     }
 

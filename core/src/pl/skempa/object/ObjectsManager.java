@@ -1,6 +1,6 @@
 package pl.skempa.object;
 
-import com.badlogic.gdx.graphics.Camera;
+
 
 import java.util.List;
 
@@ -16,5 +16,4 @@ public interface ObjectsManager {
 
     List<Building> getObjects();
 
-    void update(Camera camera);
 }
