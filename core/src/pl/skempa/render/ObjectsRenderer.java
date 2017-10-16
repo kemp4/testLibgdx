@@ -8,5 +8,9 @@ import com.badlogic.gdx.graphics.Camera;
 
 public interface ObjectsRenderer {
     void init();
-    void renderObjects(Camera camera);
+    void renderObjects();
+
+    void zoomCamera(float amount);
+
+    void moveCamera(float deltaX, float deltaY, float deltaZ);
 }
