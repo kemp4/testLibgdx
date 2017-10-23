@@ -1,30 +1,28 @@
 package pl.skempa.controller;
 
-import pl.skempa.object.MapCamera;
-import pl.skempa.object.ObjectsManager;
-import pl.skempa.render.ObjectsRenderer;
+import pl.skempa.model.Model;
 
 /**
  * Created by skempa on 16.10.2017.
  */
 
 public class CameraControllerImpl implements CameraController {
-    private ObjectsManager objectsManager;
-    private MapCamera camera;
 
-    public CameraControllerImpl(ObjectsManager objectsManager, MapCamera camera) {
+    Model model;
 
-        this.objectsManager = objectsManager;
-        this.camera = camera;
+    public CameraControllerImpl(Model model) {
+        this.model=model;
     }
 
     @Override
     public void zoomCamera(int amount) {
-        camera.zoomCamera(amount);
+
+        model.zoomCamera(amount);
     }
 
     @Override
-    public void moveCamera(int deltaX, int deltaY) {
-        camera.moveCamera(deltaX,deltaY,0);
+    public void moveCamera(int deltaX, int deltaY)
+    {
+        model.moveCamera(deltaX,deltaY,0);
     }
 }

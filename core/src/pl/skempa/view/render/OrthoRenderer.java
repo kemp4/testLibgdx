@@ -1,24 +1,15 @@
-package pl.skempa.render;
+package pl.skempa.view.render;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import pl.skempa.Building;
-import pl.skempa.XmlUtilImpl;
-import pl.skempa.object.MapCamera;
-import pl.skempa.object.MyMapCamera;
-import pl.skempa.object.ObjectsManager;
+import pl.skempa.model.object.Building;
+import pl.skempa.model.Model;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -26,40 +17,27 @@ import pl.skempa.object.ObjectsManager;
 
 public class OrthoRenderer implements ObjectsRenderer {
 
-    ShapeRenderer shapeRenderer;
-    ObjectsManager objectsManager;
-    MapCamera mapCamera;
-    List<Building> buildings;
+    private ShapeRenderer shapeRenderer;
 
-    public OrthoRenderer( ObjectsManager objectsManager) {
-        mapCamera= new MyMapCamera();
+
+    public OrthoRenderer() {
         shapeRenderer = new ShapeRenderer();
-        buildings=new ArrayList<Building>();
-        //FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
-        this.objectsManager=objectsManager;
-        buildings = objectsManager.getObjects();
-
-        // TODO set camera pos
-        mapCamera.setPosition(buildings.get(0).getWallPoints().get(0));
     }
-
 
 
     @Override
-    public void renderObjects() {
+    public void renderObjects(Model model) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        shapeRenderer.setProjectionMatrix(mapCamera.getMatrix());
+        shapeRenderer.setProjectionMatrix(model.getCameraMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 0, 1);
-        drawBuildings();
+        drawBuildings(model);
         shapeRenderer.end();
     }
 
-
-
-    private void drawBuildings() {
+    private void drawBuildings(Model model) {
+        List<Building> buildings = model.getObjects();
         for (Building building : buildings) {
             drawBuilding(building);
         }

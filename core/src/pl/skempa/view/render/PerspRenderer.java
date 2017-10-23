@@ -1,10 +1,11 @@
-package pl.skempa.render;
+package pl.skempa.view.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
+import pl.skempa.model.Model;
 import pl.skempa.shader.ShaderWrapper;
 
 /**
@@ -18,14 +19,14 @@ public class PerspRenderer implements ObjectsRenderer {
 
 
     @Override
-    public void renderObjects() {
+    public void renderObjects(Model camera) {
 
         ShaderProgram shader = shaderWrapper.getShaderProgram();
-        camera.update();
+        this.camera.update();
         //texture.bind();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shader.begin();
-        shader.setUniformMatrix("u_projTrans", camera.combined);
+        shader.setUniformMatrix("u_projTrans", this.camera.combined);
         shader.setUniformi("u_texture", 0);
       //  mesh.render(shader, GL20.GL_TRIANGLES);
         shader.end();

@@ -1,4 +1,4 @@
-package pl.skempa;
+package pl.skempa.util;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -13,14 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XmlUtilImpl implements XmlUtil{
+import pl.skempa.util.XmlUtil;
+
+public class XmlUtilImpl implements XmlUtil {
 
     Array<Element> xmlNodes;
-    Map<Long,Node> nodes = new HashMap<Long,Node>();
+    Map<Long, pl.skempa.model.object.Node> nodes = new HashMap<Long, pl.skempa.model.object.Node>();
 
     @Override
-    public List<Building> readXml(InputStream input) throws IOException {
-        List<Building> buildings = new ArrayList<Building>();
+    public List<pl.skempa.model.object.Building> readXml(InputStream input) throws IOException {
+        List<pl.skempa.model.object.Building> buildings = new ArrayList<pl.skempa.model.object.Building>();
         XmlReader xmlReader=new XmlReader();
         Element xmlRoot = xmlReader.parse(input);
         readXmlNodeFields(xmlRoot);
@@ -44,11 +46,11 @@ public class XmlUtilImpl implements XmlUtil{
         return new Vector2(xCameraPos,yCameraPos);
     }
 
-    private void readBuildings(List<Building> buildings, Element xmlRoot) {
+    private void readBuildings(List<pl.skempa.model.object.Building> buildings, Element xmlRoot) {
         Array<Element> xmlWays;
         xmlWays = xmlRoot.getChildrenByName("way");
         for (Element xmlWay : xmlWays) {
-            Building building = toBuilding(xmlWay);
+            pl.skempa.model.object.Building building = toBuilding(xmlWay);
             buildings.add(building);
         }
     }
@@ -56,13 +58,13 @@ public class XmlUtilImpl implements XmlUtil{
     private void readXmlNodeFields(Element xmlRoot) {
         xmlNodes = xmlRoot.getChildrenByName("node");
         for (Element xmlNode : xmlNodes) {
-            Node node =toNode(xmlNode);
+            pl.skempa.model.object.Node node =toNode(xmlNode);
             nodes.put(node.getId(),node);
         }
     }
 
-    private Building toBuilding(Element xmlWay) {
-        Building building = new Building();
+    private pl.skempa.model.object.Building toBuilding(Element xmlWay) {
+        pl.skempa.model.object.Building building = new pl.skempa.model.object.Building();
 
         //TODO get streetName and houseNumber
         int houseNumber = xmlWay.getInt("addr:housenumber",0);
@@ -80,15 +82,15 @@ public class XmlUtilImpl implements XmlUtil{
         List<Vector3> points= new ArrayList<Vector3>();
         for(Element xmlPoint : xmlPointsInOrder) {
             long refId = Long.parseLong((xmlPoint.getAttribute("ref")));
-            Node node = nodes.get(refId);
+            pl.skempa.model.object.Node node = nodes.get(refId);
             Vector3 point = new Vector3(node.getLon() , node.getLat(),0.f);
             points.add(point);
         }
         return points;
     }
 
-    private Node toNode(Element xmlNode) {
-        Node node = new Node();
+    private pl.skempa.model.object.Node toNode(Element xmlNode) {
+        pl.skempa.model.object.Node node = new pl.skempa.model.object.Node();
         node.setId( Long.parseLong((xmlNode.getAttribute("id"))));
         node.setLat(xmlNode.getFloatAttribute("lat"));
         node.setLon(xmlNode.getFloatAttribute("lon"));

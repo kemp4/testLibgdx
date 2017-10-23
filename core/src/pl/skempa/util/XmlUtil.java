@@ -1,10 +1,12 @@
-package pl.skempa;
+package pl.skempa.util;
 
 import com.badlogic.gdx.math.Vector2;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import pl.skempa.model.object.Building;
 
 /**
  * Created by skempa on 29.09.2017.
