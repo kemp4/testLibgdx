@@ -15,7 +15,10 @@ android {
         instrumentTest.setRoot('tests')
     }
     packagingOptions {
+        exclude 'META-INF/jersey-module-version'
+
         exclude 'META-INF/robovm/ios/robovm.xml'
+
     }
     defaultConfig {
         applicationId "pl.skempa"

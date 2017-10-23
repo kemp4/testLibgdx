@@ -70,9 +70,6 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.sun.jersey:jersey-client:1.17"
-//        compile "com.sun.jersey:jersey-json:1.17"
-        
     }
 }
 
@@ -81,7 +78,6 @@ project(":core") {
 
 
     dependencies {
-        compile project(":xmlutil")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
@@ -106,14 +102,6 @@ project(":tests") {
         testCompile "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testCompile "com.badlogicgames.gdx:gdx:$gdxVersion"
         testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    }
-}
-project(":xmlutil") {
-    apply plugin: "java"
-
-
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
 

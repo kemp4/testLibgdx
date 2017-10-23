@@ -1,4 +1,4 @@
-package pl.skempa.model;
+package pl.skempa.model.object;
 
 /**
  * Created by Mymon on 2017-10-16.
@@ -25,4 +25,22 @@ public class DegreePosition {
         return (int)coordinate;
     }
 
+    private StringBuilder asParam(int degree, int minute){
+        return(new StringBuilder().append(degree).append(",").append(minute));
+    }
+
+    public String asApiParam() {
+        return new StringBuilder()
+                .append(latAsParam())
+                .append(",")
+                .append(lonAsParam())
+                .toString();
+    }
+
+    private StringBuilder latAsParam() {
+        return asParam(latDegree,latMinute);
+    }
+    private StringBuilder lonAsParam() {
+        return asParam(lonDegree,lonMinute);
+    }
 }

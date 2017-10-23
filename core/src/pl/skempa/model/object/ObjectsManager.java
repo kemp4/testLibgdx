@@ -1,10 +1,8 @@
-package pl.skempa.object;
+package pl.skempa.model.object;
 
 
 
 import java.util.List;
-
-import pl.skempa.Building;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -13,7 +11,7 @@ import pl.skempa.Building;
 public interface ObjectsManager {
 
     void init();
-
+    void update(DegreePosition position);
     List<Building> getObjects();
 
 }

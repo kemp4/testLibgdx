@@ -1,2 +1,1 @@
-include ':xmlutil'
 include 'desktop', 'android', 'html', 'core','tests'

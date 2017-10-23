@@ -1,6 +1,5 @@
 apply plugin: "java"
 
-sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
@@ -11,6 +10,6 @@ eclipse.project {
 }
 
 dependencies {
-    compile 'com.sun.jersey:jersey-client:1.17'
-    compile 'com.sun.jersey:jersey-client:1.17'
+    compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19'
+
 }

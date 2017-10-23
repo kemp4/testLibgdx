@@ -1,4 +1,4 @@
-package pl.skempa.input;
+package pl.skempa.view.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
 import pl.skempa.controller.CameraController;
+import pl.skempa.controller.app.Controller;
 
 /**
  * Created by skempa on 29.09.2017.
@@ -13,15 +14,17 @@ import pl.skempa.controller.CameraController;
 
 public class MyInputProcessor implements InputProcessor,GestureDetector.GestureListener  {
 
-    //boolean touched=false;
-    private final static float skala = 0.02f;
+    //private Controller controller;
     private CameraController cameraController;
-
-
+    private final static float skala = 0.02f;
 
     public MyInputProcessor(CameraController cameraController) {
         this.cameraController = cameraController;
     }
+
+    // public MyInputProcessor(Controller controller) {
+   //     this.controller = controller;
+   // }
 
     @Override
     public boolean keyDown(int keycode) {

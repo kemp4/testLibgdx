@@ -4,10 +4,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import pl.skempa.Building;
-import pl.skempa.model.DegreePosition;
-import pl.skempa.object.ObjectsDataAPIWrapper;
-import pl.skempa.object.OpenStreetMapAPIWrapper;
+import pl.skempa.model.object.DegreePosition;
+import pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper;
+import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
 
 import static org.junit.Assert.assertEquals;
 

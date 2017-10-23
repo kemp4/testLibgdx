@@ -1,4 +1,4 @@
-package pl.skempa.object;
+package pl.skempa.model.apiwrappers;
 
 
 import java.io.IOException;
@@ -8,10 +8,10 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
-import pl.skempa.Building;
-import pl.skempa.XmlUtil;
-import pl.skempa.XmlUtilImpl;
-import pl.skempa.model.DegreePosition;
+import pl.skempa.model.object.Building;
+import pl.skempa.util.XmlUtil;
+import pl.skempa.util.XmlUtilImpl;
+import pl.skempa.model.object.DegreePosition;
 
 /**
  * Created by Mymon on 2017-10-16.
@@ -26,7 +26,8 @@ public class OpenStreetMapAPIWrapper implements ObjectsDataAPIWrapper {
             Client client = Client.create();
             WebResource webResource = client
                     .resource(boundingBoxMapURI);
-            ClientResponse response = webResource.queryParam("bbox","18.0,50.0,18.01,50.01")
+
+            ClientResponse response = webResource.queryParam("bbox",position.asApiParam())
                     .get(ClientResponse.class);
             if (response.getStatus() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "

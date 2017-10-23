@@ -1,4 +1,4 @@
-package pl.skempa.object;
+package pl.skempa.model.camera;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by Mymon on 2017-10-16.
  */
-public class MyMapCamera implements MapCamera{
+public class MyMapCamera implements MapCamera {
     Camera camera;
     private static final float resizeCameraSpeed = 0.03f;
     private static final float moveCameraSpeed = 0.002f;
@@ -40,6 +40,7 @@ public class MyMapCamera implements MapCamera{
 
     @Override
     public Matrix4 getMatrix() {
+        camera.update();
         return camera.combined;
     }
 
