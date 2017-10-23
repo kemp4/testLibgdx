@@ -1,4 +1,4 @@
-package pl.skempa.object;
+package pl.skempa.model.camera;
 
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;

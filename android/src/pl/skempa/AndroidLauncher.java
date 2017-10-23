@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import pl.skempa.app.LibgdxTest;
+import pl.skempa.controller.app.LibgdxTest;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

@@ -2,8 +2,6 @@ package pl.skempa.libgdxtest.test;
 
 import org.junit.Test;
 
-import pl.skempa.Building;
-
 import static org.junit.Assert.assertEquals;
 
 /**

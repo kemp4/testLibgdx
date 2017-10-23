@@ -3,7 +3,7 @@ package pl.skempa.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import pl.skempa.app.LibgdxTest;
+import pl.skempa.controller.app.LibgdxTest;
 
 public class HtmlLauncher extends GwtApplication {
 

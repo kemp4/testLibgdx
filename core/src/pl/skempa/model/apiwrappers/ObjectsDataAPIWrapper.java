@@ -1,10 +1,10 @@
-package pl.skempa.object;
+package pl.skempa.model.apiwrappers;
 
 import java.io.IOException;
 import java.util.List;
 
-import pl.skempa.Building;
-import pl.skempa.model.DegreePosition;
+import pl.skempa.model.object.Building;
+import pl.skempa.model.object.DegreePosition;
 
 
 /**

@@ -1,4 +1,4 @@
-package pl.skempa;
+package pl.skempa.model.object;
 
 
 import com.badlogic.gdx.math.Vector3;
