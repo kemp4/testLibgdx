@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import pl.skempa.model.object.DegreePosition;
+import pl.skempa.util.DegreePosition;
 import pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper;
 import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
 

@@ -4,14 +4,16 @@ package pl.skempa.model.apiwrappers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import com.badlogic.gdx.math.Vector3;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import pl.skempa.model.object.Building;
+import pl.skempa.util.DegreeUtil;
 import pl.skempa.util.XmlUtil;
 import pl.skempa.util.XmlUtilImpl;
-import pl.skempa.model.object.DegreePosition;
 
 /**
  * Created by Mymon on 2017-10-16.
@@ -22,12 +24,13 @@ public class OpenStreetMapAPIWrapper implements ObjectsDataAPIWrapper {
 
 
     @Override
-    public List<Building> getObjects(DegreePosition position) {
+    public List<Building> getObjects(Vector3 position) {
             Client client = Client.create();
             WebResource webResource = client
                     .resource(boundingBoxMapURI);
-
-            ClientResponse response = webResource.queryParam("bbox",position.asApiParam())
+            Vector3 maxPosition = new Vector3(position);
+            String params = DegreeUtil.asApiBBoxParam(position,maxPosition.add(0.02f,0.02f,0.0f));
+            ClientResponse response = webResource.queryParam("bbox",params)
                     .get(ClientResponse.class);
             if (response.getStatus() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "

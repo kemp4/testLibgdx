@@ -1,10 +1,12 @@
-package pl.skempa.model.object;
+package pl.skempa.util;
+
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by Mymon on 2017-10-16.
  */
 
-public class DegreePosition {
+public  class DegreePosition {
     private int latDegree;
     private int latMinute;
     private int lonDegree;
@@ -17,6 +19,10 @@ public class DegreePosition {
         lonMinute = extractMinute(lon);
     }
 
+    public DegreePosition(Vector3 position) {
+        this(position.x,position.y);
+    }
+
     private int extractMinute(float coordinate) {
         return (int)((coordinate-extractDegree(coordinate))*60.f);
     }
@@ -26,7 +32,7 @@ public class DegreePosition {
     }
 
     private StringBuilder asParam(int degree, int minute){
-        return(new StringBuilder().append(degree).append(",").append(minute));
+        return(new StringBuilder().append(degree).append(".").append(minute));
     }
 
     public String asApiParam() {
@@ -42,5 +48,9 @@ public class DegreePosition {
     }
     private StringBuilder lonAsParam() {
         return asParam(lonDegree,lonMinute);
+    }
+
+    public int latMinuteDistance(DegreePosition position) {
+        return Math.abs(60*(this.latDegree-position.latDegree)+this.latMinute-position.latMinute);
     }
 }
