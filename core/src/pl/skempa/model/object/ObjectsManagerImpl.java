@@ -2,6 +2,7 @@ package pl.skempa.model.object;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
-import pl.skempa.util.XmlUtilImpl;
+import pl.skempa.util.*;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -19,21 +20,29 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     private List<Building> buildings = new LinkedList<Building>();
 
-    private DegreePosition position;
+    pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
+
+
+    private Vector3 position;
 
     @Override
     public void init() {
-        position =new DegreePosition(18.0f,50.0f);
+        openStreetMapApiWrapper = new OpenStreetMapAPIWrapper();
+        position =new Vector3(18.0f,50.0f,0f);
         callApi();
     }
 
     @Override
-    public void update(DegreePosition position) {
-
-            }
+    public void update(Vector3 position) {
+        float deltaX = Math.abs(this.position.x -(position.x));
+        float deltaY = Math.abs(this.position.y -(position.y));
+        if (deltaX>=0.06f||deltaY>=0.06f){
+            this.position = position;
+            callApi();
+        }
+    }
 
     private void callApi() {
-        pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper = new OpenStreetMapAPIWrapper();
         try {
             buildings = openStreetMapApiWrapper.getObjects(position);
         } catch (IOException e) {
