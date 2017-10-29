@@ -7,7 +7,6 @@ import java.util.List;
 import pl.skempa.model.object.Building;
 import pl.skempa.model.camera.MapCamera;
 import pl.skempa.model.camera.MyMapCamera;
-import pl.skempa.util.DegreePosition;
 import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
 
@@ -26,10 +25,10 @@ public class MyModel implements Model {
     public void init() {
         objectsManager = new ObjectsManagerImpl();
         objectsManager.init();
-
         camera = new MyMapCamera();
         camera.setPosition(objectsManager.getObjects().get(0).getWallPoints().get(1));
     }
+        //wsg84
 
     @Override
     public void update() {

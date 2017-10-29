@@ -1,12 +1,14 @@
-package pl.skempa.view.input;
+package pl.skempa.controller.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
-import pl.skempa.controller.CameraController;
-import pl.skempa.controller.app.Controller;
+import pl.skempa.model.Model;
+
+//import pl.skempa.controller.CameraController;
 
 /**
  * Created by skempa on 29.09.2017.
@@ -15,11 +17,11 @@ import pl.skempa.controller.app.Controller;
 public class MyInputProcessor implements InputProcessor,GestureDetector.GestureListener  {
 
     //private Controller controller;
-    private CameraController cameraController;
+    private Model model;
     private final static float skala = 0.02f;
 
-    public MyInputProcessor(CameraController cameraController) {
-        this.cameraController = cameraController;
+    public MyInputProcessor(Model model) {
+        this.model = model;
     }
 
     // public MyInputProcessor(Controller controller) {
@@ -55,7 +57,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        cameraController.moveCamera(-Gdx.input.getDeltaX(),Gdx.input.getDeltaY());
+        model.moveCamera(-Gdx.input.getDeltaX(),Gdx.input.getDeltaY(),0);
         return false;
     }
 
@@ -67,7 +69,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean scrolled(int amount) {
-        cameraController.zoomCamera(amount);
+        model.zoomCamera(amount);
         return true;
     }
 
@@ -105,7 +107,7 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
     public boolean zoom(float initialDistance, float distance) {
         float distanceDelta = distance-initialDistance;
         int resizeAmount = (int)(distanceDelta * skala);
-        cameraController.zoomCamera(resizeAmount);
+        model.zoomCamera(resizeAmount);
         return true;
     }
 

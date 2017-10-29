@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.input.GestureDetector;
 
 import pl.skempa.model.Model;
-import pl.skempa.view.input.MyInputProcessor;
+import pl.skempa.controller.input.MyInputProcessor;
 import pl.skempa.view.render.ObjectsRenderer;
 import pl.skempa.view.render.OrthoRenderer;
 import pl.skempa.controller.app.Controller;
@@ -28,16 +28,6 @@ public class MyView implements View {
 
     public void init() {
         renderer = new OrthoRenderer();
-        initInput();
-    }
-
-    private void initInput() {
-        MyInputProcessor inputProcessor = new MyInputProcessor(controller.getCameraController());
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        GestureDetector gestureDetector = new GestureDetector(inputProcessor);
-        inputMultiplexer.addProcessor(gestureDetector);
-        inputMultiplexer.addProcessor(inputProcessor);
-        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
