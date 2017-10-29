@@ -20,11 +20,5 @@ public interface XmlUtil {
      * @throws IOException
      */
     List<Building> readXml(InputStream input) throws IOException;
-    /**
-     * Method for reading data from file to map objects
-     * @param input input data with data about map
-     * @return
-     * @throws IOException
-     */
-    Vector2 getCameraPos (InputStream input) throws IOException;
+
 }

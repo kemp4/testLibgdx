@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import pl.skempa.model.object.Building;
-import pl.skempa.util.DegreePosition;
 
 
 /**

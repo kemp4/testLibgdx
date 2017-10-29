@@ -19,4 +19,5 @@ public interface Model {
     void moveCamera(int deltaX, int deltaY, int i);
     void zoomCamera(int amount);
 
+
 }
