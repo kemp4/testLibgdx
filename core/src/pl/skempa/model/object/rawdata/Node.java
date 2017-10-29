@@ -1,4 +1,4 @@
-package pl.skempa.model.object;
+package pl.skempa.model.object.rawdata;
 
 public class Node {
 	protected long id;

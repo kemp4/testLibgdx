@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pl.skempa.util.XmlUtil;
+import pl.skempa.model.object.rawdata.Node;
 
 public class XmlUtilImpl implements XmlUtil {
 
     Array<Element> xmlNodes;
-    Map<Long, pl.skempa.model.object.Node> nodes = new HashMap<Long, pl.skempa.model.object.Node>();
+    Map<Long, Node> nodes = new HashMap<Long, Node>();
 
     @Override
     public List<pl.skempa.model.object.Building> readXml(InputStream input) throws IOException {
@@ -30,12 +30,6 @@ public class XmlUtilImpl implements XmlUtil {
         return buildings;
     }
 
-    @Override
-    public Vector2 getCameraPos(InputStream input) throws IOException {
-        XmlReader xmlReader=new XmlReader();
-        Element xmlRoot = xmlReader.parse(input);
-        return readBounds(xmlRoot);
-    }
 
     private Vector2 readBounds(Element xmlRoot) {
         Element bounds;
@@ -58,7 +52,7 @@ public class XmlUtilImpl implements XmlUtil {
     private void readXmlNodeFields(Element xmlRoot) {
         xmlNodes = xmlRoot.getChildrenByName("node");
         for (Element xmlNode : xmlNodes) {
-            pl.skempa.model.object.Node node =toNode(xmlNode);
+            Node node =toNode(xmlNode);
             nodes.put(node.getId(),node);
         }
     }
@@ -82,15 +76,15 @@ public class XmlUtilImpl implements XmlUtil {
         List<Vector3> points= new ArrayList<Vector3>();
         for(Element xmlPoint : xmlPointsInOrder) {
             long refId = Long.parseLong((xmlPoint.getAttribute("ref")));
-            pl.skempa.model.object.Node node = nodes.get(refId);
+            Node node = nodes.get(refId);
             Vector3 point = new Vector3(node.getLon() , node.getLat(),0.f);
             points.add(point);
         }
         return points;
     }
 
-    private pl.skempa.model.object.Node toNode(Element xmlNode) {
-        pl.skempa.model.object.Node node = new pl.skempa.model.object.Node();
+    private Node toNode(Element xmlNode) {
+        Node node = new Node();
         node.setId( Long.parseLong((xmlNode.getAttribute("id"))));
         node.setLat(xmlNode.getFloatAttribute("lat"));
         node.setLon(xmlNode.getFloatAttribute("lon"));
