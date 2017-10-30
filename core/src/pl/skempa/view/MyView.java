@@ -9,6 +9,7 @@ import pl.skempa.controller.input.MyInputProcessor;
 import pl.skempa.view.render.ObjectsRenderer;
 import pl.skempa.view.render.OrthoRenderer;
 import pl.skempa.controller.app.Controller;
+import pl.skempa.view.render.OrthoRendererByOpenGL;
 
 /**
  * Created by Mymon on 2017-10-22.
@@ -27,7 +28,7 @@ public class MyView implements View {
     }
 
     public void init() {
-        renderer = new OrthoRenderer();
+        renderer = new OrthoRendererByOpenGL();
     }
 
     @Override

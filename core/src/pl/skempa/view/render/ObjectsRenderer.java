@@ -8,6 +8,6 @@ import pl.skempa.model.Model;
 
 public interface ObjectsRenderer {
 
-    void renderObjects(Model camera);
+    void renderObjects(Model model);
 
 }

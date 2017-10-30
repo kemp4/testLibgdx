@@ -69,17 +69,12 @@ public class XmlUtilBySax implements XmlUtil {
                 if (qName.equalsIgnoreCase("node")) {
                     addNode(attributes);
                 } else if (qName.equalsIgnoreCase("way")) {
-                    //addWay();
                     addBuilding(attributes);
                     readingMode =ReadingMode.WAY;
 
                 } else if (qName.equalsIgnoreCase("relation")) {
                     readingMode= ReadingMode.RELATION;
                 }
-//                else if (qName.equalsIgnoreCase("tag")) {
-//                    //todo delete this or create exception for this case
-//                    throw new SAXException("error with parsing - unexcepted tag in this scope");
-//                }
             }else if(readingMode==ReadingMode.WAY) {
                 if (qName.equalsIgnoreCase("tag")) {
 
