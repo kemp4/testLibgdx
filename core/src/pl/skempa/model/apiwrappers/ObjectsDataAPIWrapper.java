@@ -13,5 +13,5 @@ import pl.skempa.model.object.Building;
  */
 
 public interface ObjectsDataAPIWrapper {
-    List<Building> getObjects(Vector3 position) throws IOException;
+    List<Building> getObjects(Vector3 position) throws ApiWrapperException;
 }
