@@ -19,7 +19,7 @@ public class PerspRenderer implements ObjectsRenderer {
 
 
     @Override
-    public void renderObjects(Model camera) {
+    public void renderObjects(Model model) {
 
         ShaderProgram shader = shaderWrapper.getShaderProgram();
         this.camera.update();

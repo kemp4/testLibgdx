@@ -25,23 +25,23 @@ public class OpenStreetMapAPIWrapper implements ObjectsDataAPIWrapper {
 
 
     @Override
-    public List<Building> getObjects(Vector3 position) {
+    public List<Building> getObjects(Vector3 position) throws ApiWrapperException {
             long startTime = System.currentTimeMillis();
             Client client = Client.create();
             WebResource webResource = client
                     .resource(boundingBoxMapURI);
             Vector3 maxPosition = new Vector3(position);
-            String params = DegreeUtil.asApiBBoxParam(position,maxPosition.add(0.004f,0.004f,0.0f));
+            String params = DegreeUtil.asApiBBoxParam(position,maxPosition.add(0.02f,0.02f,0.0f));
             ClientResponse response = webResource.queryParam("bbox",params)
                     .get(ClientResponse.class);
             if (response.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
+                throw new ApiWrapperException("Failed : HTTP error code : "
                         + response.getStatus());
             }
             InputStream inputStream = response.getEntityInputStream();
             long miedzyczas = System.currentTimeMillis()-startTime;
             System.out.println("calling time" + miedzyczas);
-            XmlUtil xmlUtil= new XmlUtilImpl();
+            XmlUtil xmlUtil= new XmlUtilBySax();
 
             try {
               return xmlUtil.readXml(inputStream);
