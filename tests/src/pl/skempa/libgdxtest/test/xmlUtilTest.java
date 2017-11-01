@@ -28,6 +28,8 @@ public class xmlUtilTest {
      * bbox=19.05%2C50.20%2C19.09%2C50.24   8,8KB       (0.04)  1.4sec
      * bbox=19.05%2C50.20%2C19.10%2C50.25   13,6KB      (0.05)  2,5sec          1,1sec
      * bbox=19.05%2C50.20%2C19.11%2C50.26   faild       (0.06)
+     *
+     * bbox=139.6565%2C35.6712%2C139.6765%2C35.6712(tokio)  (0.2)
      */
     @Ignore("just for profiler")
     @Test
@@ -35,7 +37,7 @@ public class xmlUtilTest {
        // XmlUtil should be singleton?
         XmlUtil xmlUtil = new XmlUtilBySax();
         long startTime = System.currentTimeMillis();
-        InputStream is=new FileInputStream("C:\\Users\\szymk\\Documents\\work\\libgdx\\testLibgdx\\android\\assets\\mapFiles\\forProfile05.osm");
+        InputStream is=new FileInputStream("C:\\Users\\szymk\\Documents\\work\\libgdx\\testLibgdx\\android\\assets\\mapFiles\\tokioBig.osm");
         System.out.println("creating input stream time"+(System.currentTimeMillis()-startTime));
         xmlUtil.readXml(is);
         System.out.println("total time"+(System.currentTimeMillis()-startTime));

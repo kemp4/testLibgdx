@@ -28,7 +28,7 @@ public class MyView implements View {
     }
 
     public void init() {
-        renderer = new OrthoRendererByOpenGL();
+        renderer = new OrthoRenderer();
     }
 
     @Override
