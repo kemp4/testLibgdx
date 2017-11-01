@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import pl.skempa.model.object.Building;
+import pl.skempa.model.object.rawdata.RawDataSet;
 
 /**
  * Created by skempa on 29.09.2017.
@@ -19,6 +20,6 @@ public interface XmlUtil {
      * @return List of object parsed from input
      * @throws IOException
      */
-    List<Building> readXml(InputStream input) throws IOException;
+    RawDataSet readXml(InputStream input) throws IOException;
 
 }

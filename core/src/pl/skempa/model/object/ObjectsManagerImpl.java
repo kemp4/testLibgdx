@@ -1,17 +1,12 @@
 package pl.skempa.model.object;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 
 import pl.skempa.model.apiwrappers.ApiWrapperException;
 import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
-import pl.skempa.util.*;
+import pl.skempa.model.object.rawdata.Way;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -19,7 +14,7 @@ import pl.skempa.util.*;
 
 public class ObjectsManagerImpl implements ObjectsManager {
 
-    private List<Building> buildings = new LinkedList<Building>();
+    private Map<Long, Way> ways ;
 
     pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
 
@@ -46,27 +41,16 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     private void callApi() {
         try {
-            buildings = openStreetMapApiWrapper.getObjects(position);
+            ways = openStreetMapApiWrapper.getObjects(position).getWays();
         } catch (ApiWrapperException e) {
             e.printStackTrace();
             throw new RuntimeException("error with calling open Street Map API");
         }
     }
 
-    @Deprecated
-    private void readBuildings() {
-        buildings=new ArrayList<Building>();
-        FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
-        try {
-            buildings = new XmlUtilImpl().readXml(xmlMap.read());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
     @Override
-    public List<Building> getObjects() {
-        return buildings;
+    public Map<Long, Way> getObjects() {
+        return ways;
     }
 
 

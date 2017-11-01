@@ -21,6 +21,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import pl.skempa.model.object.Building;
 import pl.skempa.model.object.rawdata.Node;
+import pl.skempa.model.object.rawdata.RawDataSet;
+import pl.skempa.model.object.rawdata.Way;
 
 
 /**
@@ -29,16 +31,16 @@ import pl.skempa.model.object.rawdata.Node;
 
 public class XmlUtilBySax implements XmlUtil {
 
-    Map<Long, Node> nodes = new HashMap<Long, Node>();
-    List<Building> buildings= new LinkedList<Building>();
-
+    Map<Long, Node> nodes= new HashMap<Long, Node>();
+    Map<Long, Way> ways = new HashMap<Long, Way>();
+    Way way;
     private enum ReadingMode {
         BASE, WAY, RELATION;
     }
     ReadingMode readingMode=ReadingMode.BASE;
 
     @Override
-    public List<Building> readXml(InputStream input) throws IOException {
+    public RawDataSet readXml(InputStream input) throws IOException {
         try {
             parse(input);
         } catch (ParserConfigurationException e) {
@@ -46,7 +48,7 @@ public class XmlUtilBySax implements XmlUtil {
         } catch (SAXException e) {
             e.printStackTrace();
         }
-        return buildings;
+        return new RawDataSet(nodes,ways);
     }
 
     private void parse(InputStream input) throws ParserConfigurationException, SAXException, IOException {
@@ -58,8 +60,7 @@ public class XmlUtilBySax implements XmlUtil {
     }
 
     private class MyHandler extends DefaultHandler{
-        private Building building;
-        private List<Vector3> points;
+        private List<Node> buildingNodes;
 
         @Override
         public void startElement(String uri, String localName, String qName,
@@ -69,7 +70,7 @@ public class XmlUtilBySax implements XmlUtil {
                 if (qName.equalsIgnoreCase("node")) {
                     addNode(attributes);
                 } else if (qName.equalsIgnoreCase("way")) {
-                    addBuilding(attributes);
+                    addWay(attributes);
                     readingMode =ReadingMode.WAY;
 
                 } else if (qName.equalsIgnoreCase("relation")) {
@@ -77,26 +78,24 @@ public class XmlUtilBySax implements XmlUtil {
                 }
             }else if(readingMode==ReadingMode.WAY) {
                 if (qName.equalsIgnoreCase("tag")) {
-
+                    way.getTags().put(attributes.getValue("k"),attributes.getValue("v"));
                 }else if(qName.equalsIgnoreCase("nd")){
                     long refId = Long.parseLong(attributes.getValue("ref"));
                     Node node = nodes.get(refId);
-                    Vector3 point = new Vector3(node.getLon() , node.getLat(),0.f);
-                    points.add(point);
+                    way.getNodes().add(node);
                 }
             }else if(readingMode==ReadingMode.RELATION){
-
+                // TODO read relations
             }
         }
 
-        private void addBuilding(Attributes attributes) {
-            building = new Building();
-
-            //building.setHouseNumber(houseNumber);
-            //building.setStreetName(streetName);
-            points=new ArrayList<Vector3>();
-            building.setWallPoints(points);
-            buildings.add(building);
+        private void addWay(Attributes attributes) {
+            way = new Way();
+            long id = Long.parseLong(attributes.getValue("id"));
+            way.setId(id);
+            way.setTags(new HashMap<String,String>());
+            way.setNodes(new LinkedList<Node>());
+            ways.put(way.getId(),way);
         }
 
         private void addNode(Attributes attributes) {
