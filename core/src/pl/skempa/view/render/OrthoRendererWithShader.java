@@ -21,7 +21,7 @@ import pl.skempa.model.object.Building;
  * Created by Mymon on 2017-10-30.
  */
 
-public class OrthoRendererByOpenGL implements ObjectsRenderer {
+public class OrthoRendererWithShader implements ObjectsRenderer {
 
 ;
 //    List<Mesh> meshes;
