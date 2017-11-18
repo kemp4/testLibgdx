@@ -2,6 +2,7 @@ package pl.skempa.model.object;
 
 
 
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Collection;
@@ -20,4 +21,5 @@ public interface ObjectsManager {
     void update(Vector3 position);
     Map<Long, Way> getObjects();
 
+    Mesh getMesh();
 }

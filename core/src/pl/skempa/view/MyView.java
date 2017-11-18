@@ -3,6 +3,7 @@ package pl.skempa.view;
 import pl.skempa.model.Model;
 import pl.skempa.view.render.ObjectsRenderer;
 import pl.skempa.controller.app.Controller;
+import pl.skempa.view.render.OrthoRendererWithShader;
 import pl.skempa.view.render.SimpleOrthoRenderer;
 
 /**
@@ -22,7 +23,8 @@ public class MyView implements View {
     }
 
     public void init() {
-        renderer = new SimpleOrthoRenderer();
+        renderer = new OrthoRendererWithShader();
+        //renderer = new SimpleOrthoRenderer();
     }
 
     @Override
