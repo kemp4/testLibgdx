@@ -1,11 +1,13 @@
 package pl.skempa.model.object;
 
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Map;
 
 import pl.skempa.model.apiwrappers.ApiWrapperException;
 import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
+import pl.skempa.model.object.rawdata.BaseObject;
 import pl.skempa.model.object.rawdata.Way;
 
 /**
@@ -17,7 +19,7 @@ public class ObjectsManagerImpl implements ObjectsManager {
     private Map<Long, Way> ways ;
 
     pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
-
+    Mesh mesh;
 
     private Vector3 position;
 
@@ -25,8 +27,7 @@ public class ObjectsManagerImpl implements ObjectsManager {
     @Override
     public void init() {
         openStreetMapApiWrapper = new OpenStreetMapAPIWrapper();
-        position =new Vector3(18.0f,50.0f,0f);
-        callApi();
+        position =new Vector3(0.0f,0.0f,0f);
     }
 
     @Override
@@ -52,7 +53,15 @@ public class ObjectsManagerImpl implements ObjectsManager {
     public Map<Long, Way> getObjects() {
         return ways;
     }
+    @Override
+    public Mesh getMesh() {
+        createMesh();
+        return mesh;
+    }
 
+    private void createMesh() {
+        mesh= BaseObject.fromWays(ways);
+    }
 
 
 }

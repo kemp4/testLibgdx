@@ -1,5 +1,6 @@
 package pl.skempa.model;
 
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
 
 import java.util.List;
@@ -20,6 +21,5 @@ public interface Model {
 
     void moveCamera(int deltaX, int deltaY, int i);
     void zoomCamera(int amount);
-
-
+    Mesh getMesh();
 }
