@@ -1,15 +1,10 @@
 package pl.skempa.view;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.input.GestureDetector;
-
 import pl.skempa.model.Model;
-import pl.skempa.controller.input.MyInputProcessor;
 import pl.skempa.view.render.ObjectsRenderer;
-import pl.skempa.view.render.OrthoRenderer;
 import pl.skempa.controller.app.Controller;
-import pl.skempa.view.render.OrthoRendererByOpenGL;
+import pl.skempa.view.render.OrthoRendererWithShader;
+import pl.skempa.view.render.SimpleOrthoRenderer;
 
 /**
  * Created by Mymon on 2017-10-22.
@@ -28,7 +23,8 @@ public class MyView implements View {
     }
 
     public void init() {
-        renderer = new OrthoRenderer();
+        renderer = new OrthoRendererWithShader();
+        //renderer = new SimpleOrthoRenderer();
     }
 
     @Override

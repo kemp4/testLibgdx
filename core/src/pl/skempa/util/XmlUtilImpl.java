@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.skempa.model.object.rawdata.Node;
+import pl.skempa.model.object.rawdata.RawDataSet;
 
 public class XmlUtilImpl implements XmlUtil {
 
@@ -21,13 +22,14 @@ public class XmlUtilImpl implements XmlUtil {
     Map<Long, Node> nodes = new HashMap<Long, Node>();
 
     @Override
-    public List<pl.skempa.model.object.Building> readXml(InputStream input) throws IOException {
+    public RawDataSet readXml(InputStream input) throws IOException {
         List<pl.skempa.model.object.Building> buildings = new ArrayList<pl.skempa.model.object.Building>();
         XmlReader xmlReader=new XmlReader();
         Element xmlRoot = xmlReader.parse(input);
         readXmlNodeFields(xmlRoot);
         readBuildings(buildings, xmlRoot);
-        return buildings;
+        // TODO fix this implementation or delete
+        return null;
     }
 
 

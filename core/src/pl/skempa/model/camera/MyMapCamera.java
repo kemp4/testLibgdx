@@ -2,6 +2,7 @@ package pl.skempa.model.camera;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
@@ -13,7 +14,8 @@ public class MyMapCamera implements MapCamera {
     private static final float resizeCameraSpeed = 0.03f;
     private static final float moveCameraSpeed = 0.002f;
     public MyMapCamera(){
-        camera = new OrthographicCamera(0.01f, 0.005f);
+        camera = new OrthographicCamera(.01f, .01f);
+
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import pl.skempa.model.object.Building;
+import pl.skempa.model.object.rawdata.RawDataSet;
 
 
 /**
@@ -13,5 +14,5 @@ import pl.skempa.model.object.Building;
  */
 
 public interface ObjectsDataAPIWrapper {
-    List<Building> getObjects(Vector3 position) throws ApiWrapperException;
+    RawDataSet getObjects(Vector3 position) throws ApiWrapperException;
 }

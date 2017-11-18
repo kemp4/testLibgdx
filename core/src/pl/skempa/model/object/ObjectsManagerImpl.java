@@ -1,17 +1,14 @@
 package pl.skempa.model.object;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 
 import pl.skempa.model.apiwrappers.ApiWrapperException;
 import pl.skempa.model.apiwrappers.OpenStreetMapAPIWrapper;
-import pl.skempa.util.*;
+import pl.skempa.model.object.rawdata.BaseObject;
+import pl.skempa.model.object.rawdata.Way;
 
 /**
  * Created by Mymon on 2017-10-08.
@@ -19,10 +16,10 @@ import pl.skempa.util.*;
 
 public class ObjectsManagerImpl implements ObjectsManager {
 
-    private List<Building> buildings = new LinkedList<Building>();
+    private Map<Long, Way> ways ;
 
     pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
-
+    Mesh mesh;
 
     private Vector3 position;
 
@@ -30,8 +27,7 @@ public class ObjectsManagerImpl implements ObjectsManager {
     @Override
     public void init() {
         openStreetMapApiWrapper = new OpenStreetMapAPIWrapper();
-        position =new Vector3(18.0f,50.0f,0f);
-        callApi();
+        position =new Vector3(0.0f,0.0f,0f);
     }
 
     @Override
@@ -46,29 +42,26 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     private void callApi() {
         try {
-            buildings = openStreetMapApiWrapper.getObjects(position);
+            ways = openStreetMapApiWrapper.getObjects(position).getWays();
         } catch (ApiWrapperException e) {
             e.printStackTrace();
             throw new RuntimeException("error with calling open Street Map API");
         }
     }
 
-    @Deprecated
-    private void readBuildings() {
-        buildings=new ArrayList<Building>();
-        FileHandle xmlMap = Gdx.files.internal("mapFiles/mapOchojec.osm");
-        try {
-            buildings = new XmlUtilImpl().readXml(xmlMap.read());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    @Override
+    public Map<Long, Way> getObjects() {
+        return ways;
     }
     @Override
-    public List<Building> getObjects() {
-        return buildings;
+    public Mesh getMesh() {
+        createMesh();
+        return mesh;
     }
 
+    private void createMesh() {
+        mesh= BaseObject.fromWays(ways);
+    }
 
 
 }
