@@ -41,13 +41,10 @@ public class OrthoRendererWithShader implements ObjectsRenderer {
     public void renderObjects(Model model) {
         if (firts){
             create();
-
             firts=false;
             prepareData(model.getMesh());
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //this will push the triangles into the batch
-
         flush(model.getCameraMatrix());
     }
 

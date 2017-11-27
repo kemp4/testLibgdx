@@ -1,9 +1,12 @@
 package pl.skempa.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Map;
 
 import pl.skempa.model.camera.MapCamera;
@@ -11,7 +14,10 @@ import pl.skempa.model.camera.MyMapCamera;
 import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
 import pl.skempa.model.object.rawdata.BaseObject;
+import pl.skempa.model.object.rawdata.OsmBaseObject;
+import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Way;
+import pl.skempa.util.PbfReader;
 
 /**
  * Created by Mymon on 2017-10-22.
@@ -31,7 +37,9 @@ public class MyModel implements Model {
         objectsManager.init();
         camera = new MyMapCamera();
         //camera.setPosition(new Vector3(0f,0f,0f));
-        camera.setPosition(new Vector3(139.9f,35.66f,0f));
+        camera.setPosition(new Vector3(0f, 0f, 0f));
+
+
     }
         //wsg84
 
@@ -63,7 +71,19 @@ public class MyModel implements Model {
 
     @Override
     public Mesh getMesh() {
-        return objectsManager.getMesh();
+
+        // Code for tests //// TODO: 11/25/2017 move/refactor
+        PbfReader pbfReader = new PbfReader();
+        OsmRawDataSet dataSet ;
+
+        try {
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/tokio.pbf").read());
+            dataSet.getWays().keySet().toArray().toString();
+            return new OsmBaseObject().fromWays(dataSet);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        return objectsManager.getMesh();//if above method failed
     }
 
 }

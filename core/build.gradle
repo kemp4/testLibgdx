@@ -11,5 +11,7 @@ eclipse.project {
 
 dependencies {
     compile group: 'com.sun.jersey', name: 'jersey-client', version: '1.19'
-
+    compile group: 'org.openstreetmap.osmosis', name: 'osmosis-core', version: '0.46'
+    compile group: 'org.openstreetmap.osmosis', name: 'osmosis-pbf', version: '0.46'
+    compile group: 'org.openstreetmap.osmosis', name: 'osmosis-xml', version: '0.46'
 }

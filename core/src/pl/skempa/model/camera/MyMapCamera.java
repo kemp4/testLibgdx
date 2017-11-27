@@ -14,7 +14,7 @@ public class MyMapCamera implements MapCamera {
     private static final float resizeCameraSpeed = 0.03f;
     private static final float moveCameraSpeed = 0.002f;
     public MyMapCamera(){
-        camera = new OrthographicCamera(.01f, .01f);
+        camera = new OrthographicCamera(10f, 10f);
 
     }
 

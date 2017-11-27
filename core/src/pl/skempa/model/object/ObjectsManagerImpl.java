@@ -34,10 +34,11 @@ public class ObjectsManagerImpl implements ObjectsManager {
     public void update(Vector3 position) {
         float deltaX = Math.abs(this.position.x -(position.x));
         float deltaY = Math.abs(this.position.y -(position.y));
-        if (deltaX>=0.02f||deltaY>=0.02f){
-            this.position = new Vector3(position);
-            callApi();
-        }
+        //TODO uncomment this section
+//        if (deltaX>=0.02f||deltaY>=0.02f){
+//            this.position = new Vector3(position);
+//            callApi();
+//        }
     }
 
     private void callApi() {
