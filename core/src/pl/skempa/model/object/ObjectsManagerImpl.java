@@ -32,8 +32,8 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     @Override
     public void update(Vector3 position) {
-        float deltaX = Math.abs(this.position.x -(position.x));
-        float deltaY = Math.abs(this.position.y -(position.y));
+//        float deltaX = Math.abs(this.position.x -(position.x));
+ //       float deltaY = Math.abs(this.position.y -(position.y));
         //TODO uncomment this section
 //        if (deltaX>=0.02f||deltaY>=0.02f){
 //            this.position = new Vector3(position);
@@ -54,6 +54,7 @@ public class ObjectsManagerImpl implements ObjectsManager {
     public Map<Long, Way> getObjects() {
         return ways;
     }
+
     @Override
     public Mesh getMesh() {
         createMesh();

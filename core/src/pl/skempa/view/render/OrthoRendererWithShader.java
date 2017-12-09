@@ -27,16 +27,8 @@ public class OrthoRendererWithShader implements ObjectsRenderer {
     Mesh mesh;
     ShaderProgram shader;
 
-    public static final int POSITION_COMPONENTS = 2;
-    public static final int COLOR_COMPONENTS = 4;
-    public static final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
-    public static final int MAX_TRIS = 2;
-    public static final int MAX_VERTS = MAX_TRIS * 3;
-
-    private float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
     //The index position
-    private int idx = 0;
-    boolean firts = true;
+    private boolean firts = true;
     @Override
     public void renderObjects(Model model) {
         if (firts){

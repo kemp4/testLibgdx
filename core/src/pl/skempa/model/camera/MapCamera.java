@@ -1,5 +1,6 @@
 package pl.skempa.model.camera;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
@@ -15,4 +16,6 @@ public interface MapCamera {
     Matrix4 getMatrix();
 
     void setPosition(Vector3 vector3);
+
+    Camera getLibgdxCamera();
 }

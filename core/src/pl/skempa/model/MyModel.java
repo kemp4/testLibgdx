@@ -1,19 +1,18 @@
 package pl.skempa.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Map;
 
 import pl.skempa.model.camera.MapCamera;
 import pl.skempa.model.camera.MyMapCamera;
+import pl.skempa.model.camera.MyPerspCamera;
 import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
-import pl.skempa.model.object.rawdata.BaseObject;
 import pl.skempa.model.object.rawdata.OsmBaseObject;
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Way;
@@ -35,9 +34,10 @@ public class MyModel implements Model {
     public void init() {
         objectsManager = new ObjectsManagerImpl();
         objectsManager.init();
-        camera = new MyMapCamera();
-        //camera.setPosition(new Vector3(0f,0f,0f));
-        camera.setPosition(new Vector3(0f, 0f, 0f));
+        //camera = new MyMapCamera();
+        camera = new MyPerspCamera();
+
+        camera.setPosition(new Vector3(0f, 0f, 4f));
 
 
     }
@@ -52,6 +52,7 @@ public class MyModel implements Model {
     @Override
     public Matrix4 getCameraMatrix() {
         return camera.getMatrix();
+
     }
 
     @Override
@@ -69,21 +70,42 @@ public class MyModel implements Model {
         camera.zoomCamera(amount);
     }
 
+    private OsmRawDataSet dataSet =null;
+
+
     @Override
     public Mesh getMesh() {
 
         // Code for tests //// TODO: 11/25/2017 move/refactor
         PbfReader pbfReader = new PbfReader();
-        OsmRawDataSet dataSet ;
+
 
         try {
-            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/tokio.pbf").read());
-            dataSet.getWays().keySet().toArray().toString();
-            return new OsmBaseObject().fromWays(dataSet);
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
+            //dataSet.getWays().keySet().toArray().toString();
+            return new OsmBaseObject().twoDimMeshFromWays(dataSet);
         }catch(Exception e) {
             e.printStackTrace();
         }
         return objectsManager.getMesh();//if above method failed
+    }
+
+    @Override
+    public OsmRawDataSet getOsmRawDataSet() {
+        return dataSet;
+    }
+
+    @Override
+    public Mesh getThreeDimMesh() {
+        PbfReader pbfReader = new PbfReader();
+        dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
+        return new OsmBaseObject().threeDimMeshFromWays(dataSet);
+    }
+
+    @Override
+    public Camera getCamera() {
+        return camera.getLibgdxCamera();
+
     }
 
 }
