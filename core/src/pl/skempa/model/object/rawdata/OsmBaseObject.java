@@ -33,6 +33,7 @@ public class OsmBaseObject {
     public static final String BUILDING = "building";
     public static final String WAY = "highway";
     private static final float BUILDING_HEIGHT =0.03f ;
+    private static final int MAX_NODES = 2001;
     //TODO lot of refactor
     private float[] vertices;
     private int offset;
@@ -58,7 +59,7 @@ public class OsmBaseObject {
             }
             if (isBuilding) {
                 int i = 0;
-                float[] vert = new float[50000];
+                float[] vert = new float[MAX_NODES*2];
                 List<WayNode> wayNodes = way.getWayNodes();
                 for (WayNode wayNode : wayNodes) {
                     Node node = dataSet.getNodes().get(wayNode.getNodeId());
@@ -94,6 +95,7 @@ public class OsmBaseObject {
                     float pointBy = vert[3 + j];
                     Vector2 pointA = new Vector2(pointAx, pointAy);
                     Vector2 pointB = new Vector2(pointBx, pointBy);
+
                     Vector2 vectorR = new Vector2(pointB).sub(pointA);
                     vectorR = vectorR.nor();
                     vectorR = vectorR.scl(0.002f);                // r - way width
@@ -147,7 +149,7 @@ public class OsmBaseObject {
             }
             if (isBuilding) {
                 int i = 0;
-                float[] vert = new float[50000];
+                float[] vert = new float[MAX_NODES*2];
                 List<WayNode> wayNodes = way.getWayNodes();
                 for (WayNode wayNode : wayNodes) {
 
@@ -189,32 +191,43 @@ public class OsmBaseObject {
     }
 
     private void generateWall(float[] vert, int i) {
+        float pointAx=vert[i-4];
+        float pointAy=vert[i-3];
+        float pointBx=vert[i-2];
+        float pointBy=vert[i-1];
+
+        //generating normal
+        Vector2 pointA = new Vector2(pointAx, pointAy);
+        Vector2 pointB = new Vector2(pointBx, pointBy);
+
+        Vector3 normal = new Vector3((new Vector2(pointB).sub(pointA)).rotate90(1),0);
+
+        normal = normal.nor();
+
         //p ointA
         addVector3(new Vector3(vert[i-4],vert[i-3],BUILDING_HEIGHT)); // add vertice position
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//add normal
+        addVector3(normal);//add normal
 //B
         addVector3(new Vector3(vert[i-2],vert[i-1],BUILDING_HEIGHT));//pos
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//normal
+        addVector3(normal);//add normal
 //C
         addVector3(new Vector3(vert[i-4],vert[i-3],0));//pos
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//normal
-        //BUILDIING
+        addVector3(normal);//add normal
 
-        //todo do smt with depth tes
         addVector3(new Vector3(vert[i-4],vert[i-3],0)); // add vertice position
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//add normal
+        addVector3(normal);//add normal
 //D
         addVector3(new Vector3(vert[i-2],vert[i-1],0));//pos
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//normal
+        addVector3(normal);//add normal
 
         addVector3(new Vector3(vert[i-2],vert[i-1],BUILDING_HEIGHT));//pos
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
-        addVector3(new Vector3());//normal
+        addVector3(normal);//add normal
     }
 
     private void addColor(Color color) {
