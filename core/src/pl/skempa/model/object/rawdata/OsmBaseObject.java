@@ -173,6 +173,8 @@ public class OsmBaseObject {
                     addVector3(new Vector3(0f,0f,1f));
                 }
             }
+
+
         }
 
         float[] result = new float[offset];

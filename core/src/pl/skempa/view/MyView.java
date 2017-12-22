@@ -24,8 +24,8 @@ public class MyView implements View {
     }
 
     public void init() {
-        renderer = new PerspRenderer();
-        //renderer = new OrthoRendererWithShader();
+        //renderer = new PerspRenderer();
+        renderer = new OrthoRendererWithShader();
         //renderer = new SimpleOrthoRenderer();
     }
 
