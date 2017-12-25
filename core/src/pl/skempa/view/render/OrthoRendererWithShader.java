@@ -27,16 +27,38 @@ public class OrthoRendererWithShader implements ObjectsRenderer {
     Mesh mesh;
     ShaderProgram shader;
 
+<<<<<<< HEAD
     //The index position
     private boolean firts = true;
+=======
+    public static final int POSITION_COMPONENTS = 2;
+    public static final int COLOR_COMPONENTS = 4;
+    public static final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
+    public static final int MAX_TRIS = 2;
+    public static final int MAX_VERTS = MAX_TRIS * 3;
+
+    private float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
+    //The index position
+    private int idx = 0;
+    boolean firts = true;
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     @Override
     public void renderObjects(Model model) {
         if (firts){
             create();
+<<<<<<< HEAD
+=======
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
             firts=false;
             prepareData(model.getMesh());
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+<<<<<<< HEAD
+=======
+        //this will push the triangles into the batch
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
         flush(model.getCameraMatrix());
     }
 

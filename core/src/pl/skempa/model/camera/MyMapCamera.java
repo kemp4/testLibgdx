@@ -14,7 +14,11 @@ public class MyMapCamera implements MapCamera {
     private static final float resizeCameraSpeed = 0.03f;
     private static final float moveCameraSpeed = 0.002f;
     public MyMapCamera(){
+<<<<<<< HEAD
         camera = new OrthographicCamera(10f, 10f);
+=======
+        camera = new OrthographicCamera(.01f, .01f);
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 
     }
 
@@ -51,10 +55,13 @@ public class MyMapCamera implements MapCamera {
         camera.translate(vector3);
     }
 
+<<<<<<< HEAD
     @Override
     public Camera getLibgdxCamera() {
         return camera;
     }
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 
 }

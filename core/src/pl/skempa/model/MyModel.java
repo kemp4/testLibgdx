@@ -1,7 +1,10 @@
 package pl.skempa.model;
 
+<<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
@@ -10,6 +13,7 @@ import java.util.Map;
 
 import pl.skempa.model.camera.MapCamera;
 import pl.skempa.model.camera.MyMapCamera;
+<<<<<<< HEAD
 import pl.skempa.model.camera.MyPerspCamera;
 import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
@@ -18,6 +22,12 @@ import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Scene;
 import pl.skempa.model.object.rawdata.Way;
 import pl.skempa.util.PbfReader;
+=======
+import pl.skempa.model.object.ObjectsManager;
+import pl.skempa.model.object.ObjectsManagerImpl;
+import pl.skempa.model.object.rawdata.BaseObject;
+import pl.skempa.model.object.rawdata.Way;
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 
 /**
  * Created by Mymon on 2017-10-22.
@@ -35,12 +45,18 @@ public class MyModel implements Model {
     public void init() {
         objectsManager = new ObjectsManagerImpl();
         objectsManager.init();
+<<<<<<< HEAD
         //camera = new MyMapCamera();
         camera = new MyPerspCamera();
 
         camera.setPosition(new Vector3(0f, 0f, 4f));
 
 
+=======
+        camera = new MyMapCamera();
+        //camera.setPosition(new Vector3(0f,0f,0f));
+        camera.setPosition(new Vector3(139.9f,35.66f,0f));
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }
         //wsg84
 
@@ -53,7 +69,10 @@ public class MyModel implements Model {
     @Override
     public Matrix4 getCameraMatrix() {
         return camera.getMatrix();
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }
 
     @Override
@@ -71,6 +90,7 @@ public class MyModel implements Model {
         camera.zoomCamera(amount);
     }
 
+<<<<<<< HEAD
     private OsmRawDataSet dataSet =null;
 
 
@@ -107,6 +127,11 @@ public class MyModel implements Model {
     public Camera getCamera() {
         return camera.getLibgdxCamera();
 
+=======
+    @Override
+    public Mesh getMesh() {
+        return objectsManager.getMesh();
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }
 
 }

@@ -3,6 +3,7 @@ package pl.skempa.view.render;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+<<<<<<< HEAD
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -12,13 +13,22 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Tag;
 import org.openstreetmap.osmosis.core.domain.v0_6.Way;
 import org.openstreetmap.osmosis.core.domain.v0_6.WayNode;
 
+=======
+import com.badlogic.gdx.math.Vector3;
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import pl.skempa.model.Model;
+<<<<<<< HEAD
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 
+=======
+import pl.skempa.model.object.rawdata.Way;
+import pl.skempa.model.object.rawdata.Node;
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 /**
  * Created by Mymon on 2017-10-08.
  */
@@ -26,28 +36,39 @@ import pl.skempa.model.object.rawdata.OsmRawDataSet;
 public class SimpleOrthoRenderer implements ObjectsRenderer {
 
     private ShapeRenderer shapeRenderer;
+<<<<<<< HEAD
     private boolean firts = true;
     private OsmRawDataSet dataSet;
 
     public SimpleOrthoRenderer() {
         shapeRenderer = new ShapeRenderer();
 
+=======
+
+
+    public SimpleOrthoRenderer() {
+        shapeRenderer = new ShapeRenderer();
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }
 
 
     @Override
     public void renderObjects(Model model) {
+<<<<<<< HEAD
         if (firts){
             firts=false;
             model.getMesh();
             dataSet= model.getOsmRawDataSet();
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shapeRenderer.setProjectionMatrix(model.getCameraMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 1, 0, 1);
+<<<<<<< HEAD
         drawWays();
         shapeRenderer.end();
     }
@@ -55,11 +76,20 @@ public class SimpleOrthoRenderer implements ObjectsRenderer {
     private void drawWays() {
 
         Map<Long,Way> ways = dataSet.getWays();
+=======
+        drawWays(model);
+        shapeRenderer.end();
+    }
+
+    private void drawWays(Model model) {
+        Map<Long,Way> ways = model.getObjects();
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
         for (Map.Entry<Long,Way> way : ways.entrySet()) {
             drawWay(way.getValue());
         }
     }
 
+<<<<<<< HEAD
     public static final String BUILDING = "building";
     public static final String WAY = "highway";
     private void drawWay(Way way) {
@@ -89,12 +119,31 @@ public class SimpleOrthoRenderer implements ObjectsRenderer {
         Vector3 previousPoint = toPoint(previousNode);
         while(pointsIterator.hasNext()) {
             WayNode actualNode = pointsIterator.next();
+=======
+    private void drawWay(Way way) {
+        if(way.getTags().containsKey("building")){
+            shapeRenderer.setColor(0, 0, 1, 1);
+        }else if(way.getTags().containsKey("highway")){
+            shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1);
+        }
+        else{
+            shapeRenderer.setColor(1, 1, 0, 1);
+        }
+
+        List<Node> nodes = way.getNodes();
+        Iterator<Node> pointsIterator = nodes.iterator();
+        Node previousNode = pointsIterator.next();
+        Vector3 previousPoint = toPoint(previousNode);
+        while(pointsIterator.hasNext()) {
+            Node actualNode = pointsIterator.next();
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
             Vector3 actualPoint = toPoint(actualNode);
             shapeRenderer.line(previousPoint,actualPoint);
             previousPoint=actualPoint;
         }
     }
 
+<<<<<<< HEAD
     private Vector3 toPoint(WayNode wayNode) {
         Node node = dataSet.getNodes().get(wayNode.getNodeId());
         return new Vector3(normalizePosition(node,dataSet.getBound()),0);
@@ -104,4 +153,10 @@ public class SimpleOrthoRenderer implements ObjectsRenderer {
         double y =  (node.getLatitude() - bound.getBottom())*100;
         return new Vector2((float)x,(float)y);
     }
+=======
+    private Vector3 toPoint(Node actualNode) {
+        return new Vector3(actualNode.getLon(),actualNode.getLat(),0);
+    }
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }

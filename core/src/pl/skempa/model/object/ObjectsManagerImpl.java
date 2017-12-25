@@ -17,6 +17,10 @@ import pl.skempa.model.object.rawdata.Way;
 public class ObjectsManagerImpl implements ObjectsManager {
 
     private Map<Long, Way> ways ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
     Mesh mesh;
 
@@ -31,6 +35,7 @@ public class ObjectsManagerImpl implements ObjectsManager {
 
     @Override
     public void update(Vector3 position) {
+<<<<<<< HEAD
 //        float deltaX = Math.abs(this.position.x -(position.x));
  //       float deltaY = Math.abs(this.position.y -(position.y));
         //TODO uncomment this section
@@ -38,6 +43,14 @@ public class ObjectsManagerImpl implements ObjectsManager {
 //            this.position = new Vector3(position);
 //            callApi();
 //        }
+=======
+        float deltaX = Math.abs(this.position.x -(position.x));
+        float deltaY = Math.abs(this.position.y -(position.y));
+        if (deltaX>=0.02f||deltaY>=0.02f){
+            this.position = new Vector3(position);
+            callApi();
+        }
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }
 
     private void callApi() {
@@ -53,7 +66,10 @@ public class ObjectsManagerImpl implements ObjectsManager {
     public Map<Long, Way> getObjects() {
         return ways;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     @Override
     public Mesh getMesh() {
         createMesh();

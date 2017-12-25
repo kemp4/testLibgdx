@@ -4,7 +4,10 @@ import pl.skempa.model.Model;
 import pl.skempa.view.render.ObjectsRenderer;
 import pl.skempa.controller.app.Controller;
 import pl.skempa.view.render.OrthoRendererWithShader;
+<<<<<<< HEAD
 import pl.skempa.view.render.PerspRenderer;
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import pl.skempa.view.render.SimpleOrthoRenderer;
 
 /**
@@ -24,8 +27,12 @@ public class MyView implements View {
     }
 
     public void init() {
+<<<<<<< HEAD
         renderer = new PerspRenderer();
         //renderer = new OrthoRendererWithShader();
+=======
+        renderer = new OrthoRendererWithShader();
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
         //renderer = new SimpleOrthoRenderer();
     }
 
