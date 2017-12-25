@@ -1,10 +1,12 @@
 package pl.skempa.model.object.rawdata;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.math.EarClippingTriangulator;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ShortArray;
@@ -17,6 +19,9 @@ import org.openstreetmap.osmosis.core.domain.v0_6.WayNode;
 
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,9 +39,16 @@ public class OsmBaseObject {
     public static final String WAY = "highway";
     private static final float BUILDING_HEIGHT =0.03f ;
     private static final int MAX_NODES = 2001;
+    private static final String TREE = "tree";
+    private static final String NATURAL = "natural";
+    private static final String STREETLAMP = "StreetLamp";//todo create or find some lamp model
+
+    private ModelsReader modelsReader = new ModelsReader();
+    private Map<String,Mesh> models = new HashMap<String,Mesh>();
+    private List<WorldObject> objects = new LinkedList<WorldObject>();
     //TODO lot of refactor
     private float[] vertices;
-    private int offset;
+    private int offset; //todo change to long.
 
     public Mesh twoDimMeshFromWays(OsmRawDataSet dataSet) {
 
@@ -129,7 +141,8 @@ public class OsmBaseObject {
     }
 
 
-    public Mesh threeDimMeshFromWays(OsmRawDataSet dataSet) {
+    public Scene threeDimMeshFromWays(OsmRawDataSet dataSet) {
+        readModels();
         vertices = new float[100000000];
         offset = 0;
         Map<Long, Way> ways = dataSet.getWays();
@@ -138,13 +151,15 @@ public class OsmBaseObject {
             // TODO maybe there is better way to check tags
             boolean isBuilding = false;
             boolean isWay = false;
-
+            boolean isTree = false;
+            boolean isLamp = false;
             for (Tag tag : way.getTags()) {
                 if (tag.getKey().equals(BUILDING)) {
                     isBuilding = true;
-                }
-                if (tag.getKey().equals(WAY)) {
+                }else if (tag.getKey().equals(WAY)) {
                     isWay = true;
+                }else if (tag.getKey().equals(NATURAL)){
+                    isTree = true;
                 }
             }
             if (isBuilding) {
@@ -152,15 +167,12 @@ public class OsmBaseObject {
                 float[] vert = new float[MAX_NODES*2];
                 List<WayNode> wayNodes = way.getWayNodes();
                 for (WayNode wayNode : wayNodes) {
-
-
                     Node node = dataSet.getNodes().get(wayNode.getNodeId());
                     Vector2 positionInMesh = normalizePosition(node, dataSet.getBound());
                     vert[i++] = positionInMesh.x;
                     vert[i++] = positionInMesh.y;
                     if (i>=4){
                         generateWall(vert,i);
-
                     }
                 }
                 EarClippingTriangulator triangulator = new EarClippingTriangulator();
@@ -172,9 +184,21 @@ public class OsmBaseObject {
                     addColor(new Color(0.3f, 0.1f, 0.5f, 1.0f));
                     addVector3(new Vector3(0f,0f,1f));
                 }
+            }else if (isTree){
+                WayNode wayNode = way.getWayNodes().get(0);
+                Node node = dataSet.getNodes().get(wayNode.getNodeId());
+                Vector2 positionInWorld = normalizePosition(node, dataSet.getBound());
+                Vector3 translation = new Vector3(positionInWorld,0f);//
+                Matrix4 matrix = new Matrix4();
+                matrix.translate(translation);
+                matrix.scale(0.01f,0.01f,0.01f);
+                matrix.rotate(1,0,0,90);
+
+                objects.add(new WorldObject(models.get(TREE),matrix));
+                // todo generating trees only for tree tag values
+            }else if(isLamp){
+                //todo fix checking lamp tag
             }
-
-
         }
 
         float[] result = new float[offset];
@@ -187,9 +211,18 @@ public class OsmBaseObject {
                 new VertexAttribute(Usage.ColorUnpacked, 4, "a_color"),
                 new VertexAttribute(Usage.Normal,3 , "a_normal"));
         mesh.setVertices(result);
-        return mesh;
+        return new Scene(mesh,objects);
+    }
 
+    private void readModels() {
 
+        try {
+            models.put(TREE,modelsReader.loadMesh(Gdx.files.internal("models/tree.obj").read()));
+           // models.put(TREE,modelsReader.loadMesh(Gdx.files.internal("models/StreetLamp.obj").read()));
+        } catch (IOException e) {
+            //todo handle error
+            e.printStackTrace();
+        }
     }
 
     private void generateWall(float[] vert, int i) {

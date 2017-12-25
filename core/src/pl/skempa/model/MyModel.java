@@ -15,6 +15,7 @@ import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
 import pl.skempa.model.object.rawdata.OsmBaseObject;
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
+import pl.skempa.model.object.rawdata.Scene;
 import pl.skempa.model.object.rawdata.Way;
 import pl.skempa.util.PbfReader;
 
@@ -96,7 +97,7 @@ public class MyModel implements Model {
     }
 
     @Override
-    public Mesh getThreeDimMesh() {
+    public Scene getThreeDimScene() {
         PbfReader pbfReader = new PbfReader();
         dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
         return new OsmBaseObject().threeDimMeshFromWays(dataSet);

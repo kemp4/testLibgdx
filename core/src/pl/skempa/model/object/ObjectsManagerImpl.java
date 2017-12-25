@@ -17,7 +17,6 @@ import pl.skempa.model.object.rawdata.Way;
 public class ObjectsManagerImpl implements ObjectsManager {
 
     private Map<Long, Way> ways ;
-
     pl.skempa.model.apiwrappers.ObjectsDataAPIWrapper openStreetMapApiWrapper ;
     Mesh mesh;
 

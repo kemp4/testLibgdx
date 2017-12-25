@@ -9,6 +9,7 @@ import java.util.Map;
 
 import pl.skempa.model.object.Building;
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
+import pl.skempa.model.object.rawdata.Scene;
 import pl.skempa.model.object.rawdata.Way;
 
 /**
@@ -26,7 +27,7 @@ public interface Model {
     Mesh getMesh();
     OsmRawDataSet getOsmRawDataSet();
 
-    Mesh getThreeDimMesh();
+    Scene getThreeDimScene();
 
     Camera getCamera();
 }
