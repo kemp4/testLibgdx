@@ -1,7 +1,10 @@
 package pl.skempa.model;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.badlogic.gdx.graphics.Camera;
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import com.badlogic.gdx.graphics.Mesh;
@@ -12,8 +15,11 @@ import java.util.Map;
 
 import pl.skempa.model.object.Building;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Scene;
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import pl.skempa.model.object.rawdata.Way;
@@ -32,11 +38,14 @@ public interface Model {
     void zoomCamera(int amount);
     Mesh getMesh();
 <<<<<<< HEAD
+<<<<<<< HEAD
     OsmRawDataSet getOsmRawDataSet();
 
     Scene getThreeDimScene();
 
     Camera getCamera();
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }

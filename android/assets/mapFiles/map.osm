@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.6.0 (5057 thorn-01.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <bounds minlat="50.2104000" minlon="18.9888400" maxlat="50.2105700" maxlon="18.9890900"/>
+ <node id="2118266222" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:23Z" user="umkatowice-import" uid="1199534" lat="50.2104432" lon="18.9888970"/>
+ <node id="2118266223" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:23Z" user="umkatowice-import" uid="1199534" lat="50.2104439" lon="18.9889002"/>
+ <node id="2118266267" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:24Z" user="umkatowice-import" uid="1199534" lat="50.2104619" lon="18.9889899"/>
+ <node id="2118266296" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:25Z" user="umkatowice-import" uid="1199534" lat="50.2104773" lon="18.9890647"/>
+ <node id="2118266356" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:27Z" user="umkatowice-import" uid="1199534" lat="50.2105089" lon="18.9888626"/>
+ <node id="2118266370" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:27Z" user="umkatowice-import" uid="1199534" lat="50.2105180" lon="18.9889062"/>
+ <node id="2118266395" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:28Z" user="umkatowice-import" uid="1199534" lat="50.2105341" lon="18.9890275"/>
+ <node id="2118266398" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:28Z" user="umkatowice-import" uid="1199534" lat="50.2105354" lon="18.9890331"/>
+ <node id="2118266414" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:44:29Z" user="umkatowice-import" uid="1199534" lat="50.2105422" lon="18.9890231"/>
+ <way id="201805910" visible="true" version="1" changeset="14700054" timestamp="2013-01-18T19:53:14Z" user="umkatowice-import" uid="1199534">
+  <nd ref="2118266414"/>
+  <nd ref="2118266395"/>
+  <nd ref="2118266398"/>
+  <nd ref="2118266296"/>
+  <nd ref="2118266267"/>
+  <nd ref="2118266223"/>
+  <nd ref="2118266222"/>
+  <nd ref="2118266356"/>
+  <nd ref="2118266370"/>
+  <nd ref="2118266414"/>
+  <tag k="addr:city" v="Katowice"/>
+  <tag k="addr:housenumber" v="55"/>
+  <tag k="addr:street" v="Jaworowa"/>
+  <tag k="building" v="yes"/>
+  <tag k="source" v="UM Katowice"/>
+ </way>
+</osm>

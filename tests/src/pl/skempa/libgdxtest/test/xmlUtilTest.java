@@ -1,8 +1,11 @@
 package pl.skempa.libgdxtest.test;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.badlogic.gdx.Gdx;
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import org.junit.Ignore;
@@ -13,8 +16,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.util.PbfReader;
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import pl.skempa.util.XmlUtil;
@@ -29,6 +35,12 @@ public class xmlUtilTest {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 
 
@@ -42,14 +54,18 @@ public class xmlUtilTest {
      * bbox=19.05%2C50.20%2C19.10%2C50.25   13,6KB      (0.05)  2,5sec          1,1sec
      * bbox=19.05%2C50.20%2C19.11%2C50.26   faild       (0.06)
 <<<<<<< HEAD
+<<<<<<< HEAD
      * <p>
      * bbox=139.6565%2C35.6712%2C139.6765%2C35.6712(tokio)  (0.2)
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
      */
     @Ignore("just for profiler")
     @Test
     public void xmlSpeedParsingTest() throws IOException {
+<<<<<<< HEAD
 <<<<<<< HEAD
         // XmlUtil should be singleton?
         XmlUtil xmlUtil = new XmlUtilBySax();
@@ -70,6 +86,8 @@ public class xmlUtilTest {
 //    }
 }
 =======
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
        // XmlUtil should be singleton?
         XmlUtil xmlUtil = new XmlUtilBySax();
         long startTime = System.currentTimeMillis();
@@ -80,4 +98,7 @@ public class xmlUtilTest {
     }
 
 }
+<<<<<<< HEAD
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
+=======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c

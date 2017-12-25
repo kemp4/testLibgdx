@@ -71,7 +71,10 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
     }

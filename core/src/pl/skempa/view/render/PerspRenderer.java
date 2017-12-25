@@ -2,6 +2,7 @@ package pl.skempa.view.render;
 
 import com.badlogic.gdx.Gdx;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -88,6 +89,8 @@ public class PerspRenderer implements ObjectsRenderer {
         return shader;
     }
 =======
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -120,5 +123,8 @@ public class PerspRenderer implements ObjectsRenderer {
     }
 
 
+<<<<<<< HEAD
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
+=======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }

@@ -50,7 +50,11 @@ public class BaseObject {
                 indices = triangulator.computeTriangles(vert,0,i,true);
                 //EarClippingTriangulator triangulator2 = new EarClippingTriangulator();
 <<<<<<< HEAD
+<<<<<<< HEAD
                  //indices = triangulator2.computeTriangles(vert, 0, (i));
+=======
+                // indices = triangulator2.computeTriangles(vert, 0, (i));
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
                 // indices = triangulator2.computeTriangles(vert, 0, (i));
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
@@ -77,8 +81,11 @@ public class BaseObject {
         return mesh;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 =======
 >>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }
