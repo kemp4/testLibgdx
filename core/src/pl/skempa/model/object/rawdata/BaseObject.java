@@ -49,15 +49,7 @@ public class BaseObject {
                 DelaunayTriangulator triangulator= new DelaunayTriangulator();
                 indices = triangulator.computeTriangles(vert,0,i,true);
                 //EarClippingTriangulator triangulator2 = new EarClippingTriangulator();
-<<<<<<< HEAD
-<<<<<<< HEAD
-                 //indices = triangulator2.computeTriangles(vert, 0, (i));
-=======
                 // indices = triangulator2.computeTriangles(vert, 0, (i));
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-=======
-                // indices = triangulator2.computeTriangles(vert, 0, (i));
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
                 for (int index = 0; index < indices.size; index++) {
                     vertices[offset++] = vert[indices.get(index) * 2];
                     vertices[offset++] = vert[indices.get(index) * 2 + 1];
@@ -80,12 +72,4 @@ public class BaseObject {
         mesh.setVertices(result);
         return mesh;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }

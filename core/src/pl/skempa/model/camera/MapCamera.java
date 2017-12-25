@@ -1,12 +1,6 @@
 package pl.skempa.model.camera;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.badlogic.gdx.graphics.Camera;
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
@@ -22,12 +16,5 @@ public interface MapCamera {
     Matrix4 getMatrix();
 
     void setPosition(Vector3 vector3);
-<<<<<<< HEAD
-<<<<<<< HEAD
-
     Camera getLibgdxCamera();
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }

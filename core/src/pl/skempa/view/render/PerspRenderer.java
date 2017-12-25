@@ -1,9 +1,9 @@
 package pl.skempa.view.render;
 
 import com.badlogic.gdx.Gdx;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
@@ -13,9 +13,9 @@ import pl.skempa.model.Model;
 import pl.skempa.model.object.rawdata.Scene;
 import pl.skempa.model.object.rawdata.WorldObject;
 
-import static com.badlogic.gdx.graphics.GL20.GL_COLOR_BUFFER_BIT;
-import static com.badlogic.gdx.graphics.GL20.GL_DEPTH_BUFFER_BIT;
-import static com.badlogic.gdx.graphics.GL20.GL_DEPTH_TEST;
+import static com.badlogic.gdx.graphics.GL30.GL_COLOR_BUFFER_BIT;
+import static com.badlogic.gdx.graphics.GL30.GL_DEPTH_BUFFER_BIT;
+import static com.badlogic.gdx.graphics.GL30.GL_DEPTH_TEST;
 
 /**
  * Created by szymk on 12/8/2017.
@@ -23,10 +23,11 @@ import static com.badlogic.gdx.graphics.GL20.GL_DEPTH_TEST;
 
 public class PerspRenderer implements ObjectsRenderer {
 
-    Scene scene =null;
+    Scene scene = null;
     private boolean firts = true;
     private ShaderProgram objectShader;
     private ShaderProgram generatedObjectsShader;
+
     @Override
     public void renderObjects(Model model) {
         if (firts) {
@@ -44,7 +45,6 @@ public class PerspRenderer implements ObjectsRenderer {
     }
 
 
-
     void flush(Matrix4 cameraMatrix) {
 
         Gdx.gl.glEnable(GL_DEPTH_TEST);
@@ -54,14 +54,14 @@ public class PerspRenderer implements ObjectsRenderer {
 
         objectShader.begin();
         objectShader.setUniformMatrix("combined", cameraMatrix);
-        for(WorldObject object : scene.getObjects()){
+        for (WorldObject object : scene.getObjects()) {
             objectShader.setUniformMatrix("model", object.getModelMatrix());
             object.getMesh().render(objectShader, GL30.GL_TRIANGLES, 0, object.getMesh().getMaxVertices());
         }
         objectShader.end();
         generatedObjectsShader.begin();
         generatedObjectsShader.setUniformMatrix("combined", cameraMatrix);
-        scene.getGeneratedMesh().render(generatedObjectsShader,GL30.GL_TRIANGLES,0,scene.getGeneratedMesh().getMaxVertices());
+        scene.getGeneratedMesh().render(generatedObjectsShader, GL30.GL_TRIANGLES, 0, scene.getGeneratedMesh().getMaxVertices());
         generatedObjectsShader.end();
     }
 
@@ -70,6 +70,7 @@ public class PerspRenderer implements ObjectsRenderer {
         FileHandle handleFragment = Gdx.files.internal("shaders/SGEfragmentshader.glsl");
         return getShaderProgram(handleVertex, handleFragment);
     }
+
     private ShaderProgram createObjectsShader() {
         FileHandle handleVertex = Gdx.files.internal("shaders/modelSGEvertexshader.glsl");
         FileHandle handleFragment = Gdx.files.internal("shaders/SGEfragmentshader.glsl");
@@ -88,43 +89,4 @@ public class PerspRenderer implements ObjectsRenderer {
             System.out.println("Shader Log: " + log);
         return shader;
     }
-=======
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-
-import pl.skempa.model.Model;
-import pl.skempa.shader.ShaderWrapper;
-
-/**
- * Created by Mymon on 2017-10-08.
- */
-
-public class PerspRenderer implements ObjectsRenderer {
-    private Camera camera;
-    private ShaderWrapper shaderWrapper;
-
-
-
-    @Override
-    public void renderObjects(Model model) {
-
-        ShaderProgram shader = shaderWrapper.getShaderProgram();
-        this.camera.update();
-        //texture.bind();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        shader.begin();
-        shader.setUniformMatrix("u_projTrans", this.camera.combined);
-        shader.setUniformi("u_texture", 0);
-      //  mesh.render(shader, GL20.GL_TRIANGLES);
-        shader.end();
-    }
-
-
-<<<<<<< HEAD
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
-=======
->>>>>>> f9f7cb055ed76375e46e8e87003c2529942cfa9c
 }
