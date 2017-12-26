@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import pl.skempa.model.topography.HgtReader;
+
 /**
  * Created by szymk on 11/25/2017.
  */
@@ -143,6 +145,7 @@ public class OsmBaseObject {
 
     public Scene threeDimMeshFromWays(OsmRawDataSet dataSet) {
         readModels();
+        readHgt();
         vertices = new float[100000000];
         offset = 0;
         Map<Long, Way> ways = dataSet.getWays();
@@ -213,7 +216,14 @@ public class OsmBaseObject {
         mesh.setVertices(result);
         return new Scene(mesh,objects);
     }
-
+    private void readHgt(){
+        HgtReader hgtReader = new HgtReader();
+        try {
+            hgtReader.readHgt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void readModels() {
 
         try {
@@ -264,6 +274,33 @@ public class OsmBaseObject {
         addColor(new Color(0.9f, 0.3f, 0.1f, 1.0f));
         addVector3(normal);//add normal
     }
+
+    private static final int COLUMNS = 3601;
+    private float[] terrainVertices;
+    private int terrainOffset=0;
+
+    private Mesh generateTerrainMesh(short[][] hgtTerrain,Bound bound){
+
+        int beginX = (int)(COLUMNS*(Math.round(bound.getLeft())-bound.getLeft()));
+        int endX = (int)(COLUMNS*(Math.round(bound.getRight())-bound.getRight()));
+        int beginY = (int)(COLUMNS*(Math.round(bound.getBottom())-bound.getBottom()));
+        int endY = (int)(COLUMNS*(Math.round(bound.getTop())-bound.getTop()));
+
+        for (int i = beginX ; i <= endX ; i++){
+            for (int j = beginY ; j <= endY ; j++){
+                //generateTerrainSquare(new Bound(hgtTerrain[i][j]));
+            }
+        }
+        Mesh mesh;
+        mesh = new Mesh(true, offset, 0,
+                new VertexAttribute(Usage.Position, 3, "a_position"),
+                new VertexAttribute(Usage.ColorUnpacked, 4, "a_color"),
+                new VertexAttribute(Usage.Normal,3 , "a_normal"));
+        //mesh.setVertices(result);
+        return mesh;
+    }
+
+
 
     private void addColor(Color color) {
         vertices[offset++] = color.r;    //Color(r, g, b, a)

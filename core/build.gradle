@@ -16,4 +16,5 @@ dependencies {
     compile group: 'org.openstreetmap.osmosis', name: 'osmosis-pbf', version: '0.46'
     compile group: 'org.openstreetmap.osmosis', name: 'osmosis-xml', version: '0.46'
 
+
 }
