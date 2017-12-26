@@ -24,18 +24,18 @@ private final int COLUMNS = 3601;
             bb.flip();
         // choose the right endianness
             ShortBuffer sb = bb.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
-        long i=0;
-        short min,max;
-        min= sb.get(0);
-        max = sb.get(0);
+//        short min,max;
+//        min= sb.get(0);
+//        max = sb.get(0);
         short[][] hgtArray = new short[COLUMNS][];
         for (int j = 0 ; j < 3601 ;j++){
             hgtArray[j]=new short[COLUMNS];
         }
+        long i=0;
         while(sb.hasRemaining()) {
             short test = sb.get();
-            min = (min<test)?min:test;
-            max = (max>test)?max:test;
+            //min = (min<test)?min:test;
+            //max = (max>test)?max:test;
             hgtArray[(int)(i%COLUMNS)][(int)(i/COLUMNS)]= test;
             i++;
         }
