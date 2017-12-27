@@ -46,13 +46,16 @@ public class OsmBaseObject {
     private static final Vector3 ROOF_NORMAL = new Vector3(0,0,1);
 
 
-    public Scene threeDimMeshFromWays(OsmRawDataSet dataSet) {
+    public Scene threeDimMeshFromWays(OsmRawDataSet dataSet) throws IOException {
         Map<String,Mesh> models = readModels();
         List<WorldObject> objects = new LinkedList<WorldObject>();
         readHgt();
-        List<Float> vertices = new ArrayList<>(8388608);
+        int testIt =0 ;
+        List<Float> vertices = new ArrayList<>(3388608);
         Map<Long, Way> ways = dataSet.getWays();
         for (Map.Entry<Long, Way> wayEntry : ways.entrySet()) {
+            testIt ++;
+            if (testIt%10000==0){System.out.println(testIt);}
             Way way = wayEntry.getValue();
             // TODO maybe there is better way to check tags
             boolean isBuilding = false;
@@ -116,15 +119,12 @@ public class OsmBaseObject {
                 new VertexAttribute(Usage.ColorUnpacked, 4, "a_color"),
                 new VertexAttribute(Usage.Normal,3 , "a_normal"));
         mesh.setVertices(result);
-        return new Scene(mesh,objects);
+        Mesh terrain = generateTerrainMesh(readHgt(),dataSet.getBound());
+        return new Scene(terrain,objects);
     }
-    private void readHgt(){
+    private short[][] readHgt() throws IOException {
         HgtReader hgtReader = new HgtReader();
-        try {
-            hgtReader.readHgt();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return hgtReader.readHgt();
     }
     private Map<String, Mesh> readModels() {
         Map<String, Mesh>  models = new HashMap<>();
@@ -168,41 +168,103 @@ public class OsmBaseObject {
     }
 
     private static final int COLUMNS = 3601;
-    private float[] terrainVertices;
-    private int terrainOffset=0;
 
     private Mesh generateTerrainMesh(short[][] hgtArray,Bound bound){
 
-        int beginX = (int)(COLUMNS*(Math.round(bound.getLeft())-bound.getLeft()));
-        int endX = (int)(COLUMNS*(Math.round(bound.getRight())-bound.getRight()));
-        int beginY = (int)(COLUMNS*(Math.round(bound.getBottom())-bound.getBottom()));
-        int endY = (int)(COLUMNS*(Math.round(bound.getTop())-bound.getTop()));
-        Integer offset=0;
-        for (int i = beginX ; i <= endX ; i++){
-            for (int j = beginY ; j <= endY ; j++){
-                generateTerrainSquare(i,j,hgtArray);
+        List<Float> vertices = new ArrayList<>(1000000);
+        Color terrainColor = new Color(0.1f,0.8f,0.0f,1f);
+        Vector3[][] positionsArray = generateTerrainVerticesPositions(hgtArray,bound);
+        int endX = getEndX(bound);
+        int beginX = getBeginX(bound);
+        int beginY = getBeginY(bound);
+        int endY = getEndY(bound);
+        for (int i = beginX ; i < endX ; i++){
+            for (int j = beginY ; j < endY ; j++){
+                Vector3 normal = calculateNormal(positionsArray[i][j],positionsArray[i][j+1],positionsArray[i+1][j+1]);
+                addVertex(positionsArray[i][j],terrainColor,normal,vertices);
+                addVertex(positionsArray[i][j+1],terrainColor,normal,vertices);
+                addVertex(positionsArray[i+1][j],terrainColor,normal,vertices);
+                normal = calculateNormal(positionsArray[i+1][j+1],positionsArray[i][j+1],positionsArray[i+1][j]);
+                normal.scl(-1f);
+                addVertex(positionsArray[i+1][j+1],terrainColor,normal,vertices);
+                addVertex(positionsArray[i][j+1],terrainColor,normal,vertices);
+                addVertex(positionsArray[i+1][j],terrainColor,normal,vertices);
             }
         }
+        float[] result = new float[vertices.size()];
+        for (int j = 0; j < vertices.size(); j++) {
+            result[j] = vertices.get(j);
+        }
         Mesh mesh;
-        mesh = new Mesh(true, offset, 0,
+        mesh = new Mesh(true, vertices.size(), 0,
                 new VertexAttribute(Usage.Position, 3, "a_position"),
                 new VertexAttribute(Usage.ColorUnpacked, 4, "a_color"),
                 new VertexAttribute(Usage.Normal,3 , "a_normal"));
-        //mesh.setVertices(result);
+        mesh.setVertices(result);
         return mesh;
     }
 
-    private void generateTerrainSquare(int i, int j, short[][] hgtArray) {
-
-        Vector2 posXY = calculatePosition(i,j);
-
+    private Vector3 calculateNormal(Vector3 p1, Vector3 p2, Vector3 p3) {
+        Vector3 u= new Vector3(p2).sub(p1);
+        Vector3 v= new Vector3(p3).sub(p1);
+        Vector3 normal = new Vector3();
+        normal.x = u.y*v.z - u.z*v.y;
+        normal.y = u.z*v.x - u.x*v.z;
+        normal.z = u.x*v.y - u.y*v.x;
+        return normal;
     }
 
-    private Vector2 calculatePosition(int i, int j) {
-        return new Vector2();
+    private Vector3[][] generateTerrainVerticesPositions(short[][] hgtArray, Bound bound) {
+        float ll= Math.round(bound.getLeft());
+        //TODO if - than end=begin
+        int endX = getEndX(bound);
+        int beginX = getBeginX(bound);
+        int beginY = getBeginY(bound);
+        int endY = getEndY(bound);
+
+        Vector3 result[][] = new Vector3[COLUMNS][];
+
+        for(int i = 0 ; i <COLUMNS;i++ ){
+            result[i]= new Vector3[COLUMNS];
+        }
+
+        for (int i = beginX ; i <= endX ; i++){
+            for (int j = beginY ; j <= endY ; j++){
+                float posX = generateTerrainVertexCoord(i,beginX,endX);
+                float posY = generateTerrainVertexCoord(j,beginY,endY);
+                float posZ = generateTerrainVertexHeight(hgtArray[i][j]);
+                result[i][j] = new Vector3(posX,posY,posZ);
+            }
+        }
+        return result;
     }
 
+    private int getEndY(Bound bound) {
+        return (int)Math.abs(COLUMNS*(bound.getTop()-Math.round(bound.getTop())));
+    }
 
+    private int getBeginY(Bound bound) {
+        return getBeginY(COLUMNS * (bound.getBottom() - Math.round(bound.getBottom())));
+    }
+
+    private int getBeginY(double v) {
+        return (int) Math.abs(v);
+    }
+
+    private int getBeginX(Bound bound) {
+        return (int)Math.abs(COLUMNS*(bound.getRight()-Math.round(bound.getRight())));
+    }
+
+    private int getEndX(Bound bound) {
+        return (int) Math.abs((COLUMNS * (bound.getLeft() - Math.round(bound.getLeft()))));
+    }
+
+    private float generateTerrainVertexHeight(short h) {
+    return (float)(((h)/60.f)-15f);
+    }
+    private float generateTerrainVertexCoord(int x,int begin,int end) {
+        return ((float)(x-begin))/(float)(end-begin)*10.f;
+    }
     private void addColor(Color color,List<Float> vertices) {
         vertices.add(color.r);    //Color(r, g, b, a)
         vertices.add(color.g);
@@ -225,9 +287,6 @@ public class OsmBaseObject {
         double y = (node.getLatitude() - bound.getBottom()) * 100;
         return new Vector2((float) x, (float) y);
     }
-
-
-
 
     public Mesh twoDimMeshFromWays(OsmRawDataSet dataSet) {
         List<Float> vertices = new ArrayList<>(9000000);

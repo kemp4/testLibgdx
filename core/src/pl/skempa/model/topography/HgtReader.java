@@ -23,7 +23,7 @@ private final int COLUMNS = 3601;
             fc.close();
             bb.flip();
         // choose the right endianness
-            ShortBuffer sb = bb.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
+            ShortBuffer sb = bb.order(ByteOrder.BIG_ENDIAN).asShortBuffer();
 //        short min,max;
 //        min= sb.get(0);
 //        max = sb.get(0);

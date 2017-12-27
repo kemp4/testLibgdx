@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
+import java.io.IOException;
 import java.util.Map;
 
 import pl.skempa.model.camera.MapCamera;
@@ -84,7 +85,7 @@ public class MyModel implements Model {
 
 
         try {
-            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/LosAngeles.pbf").read());
             //dataSet.getWays().keySet().toArray().toString();
             return new OsmBaseObject().twoDimMeshFromWays(dataSet);
         }catch(Exception e) {
@@ -100,9 +101,14 @@ public class MyModel implements Model {
 
     @Override
     public Scene getThreeDimScene() {
-        PbfReader pbfReader = new PbfReader();
-        dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
-        return new OsmBaseObject().threeDimMeshFromWays(dataSet);
+        try {
+            PbfReader pbfReader = new PbfReader();
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/LosAngeles3.pbf").read());
+            return new OsmBaseObject().threeDimMeshFromWays(dataSet);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null; // :)
+        }
     }
 
     @Override
