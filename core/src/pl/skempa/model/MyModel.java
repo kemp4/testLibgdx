@@ -115,4 +115,9 @@ public class MyModel implements Model {
     public Camera getCamera() {
         return camera.getLibgdxCamera();
     }
+
+    @Override
+    public void rotateCamera(Vector3 axis, int i) {
+        camera.getLibgdxCamera().rotate(axis,i);
+    }
 }

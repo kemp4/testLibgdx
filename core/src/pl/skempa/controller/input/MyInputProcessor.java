@@ -1,10 +1,12 @@
 package pl.skempa.controller.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import pl.skempa.model.Model;
 
@@ -29,7 +31,19 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
    // }
 
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(int keycode){
+        if (keycode == Input.Keys.LEFT){
+            model.rotateCamera(Vector3.Z, -10);
+        }
+        if (keycode == Input.Keys.RIGHT){
+            model.rotateCamera(Vector3.Z, 10);
+        }
+        if (keycode == Input.Keys.UP){
+            model.rotateCamera(Vector3.X, 10);
+        }
+        if (keycode == Input.Keys.DOWN){
+            model.rotateCamera(Vector3.X, -10);
+        }
         return false;
     }
 

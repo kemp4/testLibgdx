@@ -3,6 +3,7 @@ package pl.skempa.model;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.List;
 import java.util.Map;
@@ -28,4 +29,7 @@ public interface Model {
     OsmRawDataSet getOsmRawDataSet();
     Scene getThreeDimScene();
     Camera getCamera();
+
+    void rotateCamera(Vector3 axis, int i);
+
 }

@@ -2,8 +2,6 @@ package pl.skempa.view.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
@@ -61,7 +59,8 @@ public class PerspRenderer implements ObjectsRenderer {
         objectShader.end();
         generatedObjectsShader.begin();
         generatedObjectsShader.setUniformMatrix("combined", cameraMatrix);
-        scene.getGeneratedMesh().render(generatedObjectsShader, GL30.GL_TRIANGLES, 0, scene.getGeneratedMesh().getMaxVertices());
+        scene.getTerrainMesh().render(generatedObjectsShader, GL30.GL_TRIANGLES, 0, scene.getTerrainMesh().getMaxVertices());
+        scene.getBuildingMesh().render(generatedObjectsShader, GL30.GL_TRIANGLES, 0, scene.getBuildingMesh().getMaxVertices());
         generatedObjectsShader.end();
     }
 

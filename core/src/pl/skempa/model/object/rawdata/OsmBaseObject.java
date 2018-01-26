@@ -49,13 +49,14 @@ public class OsmBaseObject {
     public Scene threeDimMeshFromWays(OsmRawDataSet dataSet) throws IOException {
         Map<String,Mesh> models = readModels();
         List<WorldObject> objects = new LinkedList<WorldObject>();
-        readHgt();
+        Vector3[][] htgPositions = generateTerrainVerticesPositions(readHgt(),dataSet.getBound());
+        Mesh terrain = generateTerrainMesh(htgPositions);
         int testIt =0 ;
         List<Float> vertices = new ArrayList<>(3388608);
         Map<Long, Way> ways = dataSet.getWays();
         for (Map.Entry<Long, Way> wayEntry : ways.entrySet()) {
             testIt ++;
-            if (testIt%10000==0){System.out.println(testIt);}
+            if (testIt%10000==0){System.out.println(testIt);}//TODO remove
             Way way = wayEntry.getValue();
             // TODO maybe there is better way to check tags
             boolean isBuilding = false;
@@ -75,28 +76,29 @@ public class OsmBaseObject {
                 int i = 0;
                 float[] vert = new float[MAX_NODES*2];
                 List<WayNode> wayNodes = way.getWayNodes();
+                float minHeight= 100f;
                 for (WayNode wayNode : wayNodes) {
                     Node node = dataSet.getNodes().get(wayNode.getNodeId());
                     Vector2 positionInMesh = normalizePosition(node, dataSet.getBound());
                     vert[i++] = positionInMesh.x;
                     vert[i++] = positionInMesh.y;
-                    if (i>=4){
-                        generateWall(vert,i,vertices);
-                    }
+                    float pointHeight = calculateHeight(new Vector2(positionInMesh.x, positionInMesh.y), htgPositions);
+                    minHeight = ( ( pointHeight < minHeight ) ? pointHeight : minHeight );
+                }
+                for (int j=4;j<=i;j+=2){
+                    generateWall(vert,j,vertices,minHeight);
                 }
                 EarClippingTriangulator triangulator = new EarClippingTriangulator();
                 ShortArray indices = triangulator.computeTriangles(vert, 0, (i));
+
                 for (int index = 0; index < indices.size; index++) {
-                    addVertex(new Vector3(vert[indices.get(index) * 2],vert[indices.get(index) * 2 + 1],BUILDING_HEIGHT), ROOF_COLOR,ROOF_NORMAL,vertices);
-//                    addVector3(new Vector3(vert[indices.get(index) * 2],vert[indices.get(index) * 2 + 1],BUILDING_HEIGHT),vertices);
-//                    addColor(new Color(0.3f, 0.1f, 0.5f, 1.0f),vertices);
-//                    addVector3(new Vector3(0f,0f,1f),vertices);
+                    addVertex(new Vector3(vert[indices.get(index) * 2],vert[indices.get(index) * 2 + 1],minHeight+BUILDING_HEIGHT), ROOF_COLOR,ROOF_NORMAL,vertices);
                 }
             }else if (isTree){
                 WayNode wayNode = way.getWayNodes().get(0);
                 Node node = dataSet.getNodes().get(wayNode.getNodeId());
                 Vector2 positionInWorld = normalizePosition(node, dataSet.getBound());
-                Vector3 translation = new Vector3(positionInWorld,0f);
+                Vector3 translation = new Vector3(positionInWorld,calculateHeight(positionInWorld,htgPositions));
                 Matrix4 matrix = new Matrix4();
                 matrix.translate(translation);
                 matrix.scale(0.01f,0.01f,0.01f);
@@ -113,15 +115,39 @@ public class OsmBaseObject {
         for (int j = 0; j < vertices.size(); j++) {
             result[j] = vertices.get(j);
         }
-        Mesh mesh;
-        mesh = new Mesh(true, vertices.size(), 0,
+        Mesh buildingsMesh;
+        buildingsMesh = new Mesh(true, vertices.size(), 0,
                 new VertexAttribute(Usage.Position, 3, "a_position"),
                 new VertexAttribute(Usage.ColorUnpacked, 4, "a_color"),
                 new VertexAttribute(Usage.Normal,3 , "a_normal"));
-        mesh.setVertices(result);
-        Mesh terrain = generateTerrainMesh(readHgt(),dataSet.getBound());
-        return new Scene(terrain,objects);
+        buildingsMesh.setVertices(result);
+
+        return new Scene(buildingsMesh,terrain,objects);
     }
+
+    private float calculateHeight(Vector2 position, Vector3[][] htgPositions) {
+        float indexXf = (position.x*htgPositions.length/10.f);
+        float indexYf = (position.y*htgPositions.length/10.f);
+        float localX = indexXf - (int)indexXf;
+        float localY = indexYf - (int)indexYf;
+
+        int indexX = (int)indexXf;
+        int indexY = (int)indexYf;
+
+        float heightA;
+        float heightB = htgPositions[indexX+1][indexY].z;
+        float heightC = htgPositions[indexX][indexY+1].z;
+
+        if (localX>1-localY){ //dolny trojkat terenu
+            heightA = htgPositions[indexX][indexY].z;
+        }else{              // gorny trojkat terenu
+            heightA = htgPositions[indexX+1][indexY+1].z;
+            localX=1-localX;
+            localY=1-localY;
+        }
+        return heightA+(heightC-heightA)*localY+(heightB-heightA)*localX;
+    }
+
     private short[][] readHgt() throws IOException {
         HgtReader hgtReader = new HgtReader();
         return hgtReader.readHgt();
@@ -139,7 +165,7 @@ public class OsmBaseObject {
         return models;
     }
 
-    private void generateWall(float[] vert, int i,List<Float> vertices) {
+    private void generateWall(float[] vert, int i,List<Float> vertices,float height) {
         float pointAx=vert[i-4];
         float pointAy=vert[i-3];
         float pointBx=vert[i-2];
@@ -153,12 +179,12 @@ public class OsmBaseObject {
 
         normal = normal.nor();
 
-        addVertex(new Vector3(pointA,BUILDING_HEIGHT),wallColor,normal,vertices);
-        addVertex(new Vector3(pointB,BUILDING_HEIGHT),wallColor,normal,vertices);
-        addVertex(new Vector3(pointA,0),wallColor,normal,vertices);
-        addVertex(new Vector3(pointA,0),wallColor,normal,vertices);
-        addVertex(new Vector3(pointB,0),wallColor,normal,vertices);
-        addVertex(new Vector3(pointB,BUILDING_HEIGHT),wallColor,normal,vertices);
+        addVertex(new Vector3(pointA,height+BUILDING_HEIGHT),wallColor,normal,vertices);
+        addVertex(new Vector3(pointB,height+BUILDING_HEIGHT),wallColor,normal,vertices);
+        addVertex(new Vector3(pointA,height),wallColor,normal,vertices);
+        addVertex(new Vector3(pointA,height),wallColor,normal,vertices);
+        addVertex(new Vector3(pointB,height),wallColor,normal,vertices);
+        addVertex(new Vector3(pointB,height+BUILDING_HEIGHT),wallColor,normal,vertices);
     }
 
     private void addVertex(Vector3 position,Color color,Vector3 normal,List<Float>vertices){
@@ -169,26 +195,36 @@ public class OsmBaseObject {
 
     private static final int COLUMNS = 3601;
 
-    private Mesh generateTerrainMesh(short[][] hgtArray,Bound bound){
+    private Mesh generateTerrainMesh( Vector3[][] positionsArray){
 
         List<Float> vertices = new ArrayList<>(1000000);
         Color terrainColor = new Color(0.1f,0.8f,0.0f,1f);
-        Vector3[][] positionsArray = generateTerrainVerticesPositions(hgtArray,bound);
-        int endX = getEndX(bound);
-        int beginX = getBeginX(bound);
-        int beginY = getBeginY(bound);
-        int endY = getEndY(bound);
-        for (int i = beginX ; i < endX ; i++){
-            for (int j = beginY ; j < endY ; j++){
-                Vector3 normal = calculateNormal(positionsArray[i][j],positionsArray[i][j+1],positionsArray[i+1][j+1]);
-                addVertex(positionsArray[i][j],terrainColor,normal,vertices);
-                addVertex(positionsArray[i][j+1],terrainColor,normal,vertices);
-                addVertex(positionsArray[i+1][j],terrainColor,normal,vertices);
-                normal = calculateNormal(positionsArray[i+1][j+1],positionsArray[i][j+1],positionsArray[i+1][j]);
-                normal.scl(-1f);
-                addVertex(positionsArray[i+1][j+1],terrainColor,normal,vertices);
-                addVertex(positionsArray[i][j+1],terrainColor,normal,vertices);
-                addVertex(positionsArray[i+1][j],terrainColor,normal,vertices);
+        Color testColor = new Color(0.1f,0.1f,0.4f,0.5f);
+        for (int i = 0 ; i < positionsArray.length-1 ; i++){
+            for (int j = 0 ; j < positionsArray[i].length-1 ; j++){
+                if (i<3&&j<3) {//TODO
+                    Vector3 normal = calculateNormal(positionsArray[i][j], positionsArray[i][j + 1], positionsArray[i + 1][j + 1]);
+                    addVertex(positionsArray[i][j], terrainColor, normal, vertices);
+                    addVertex(positionsArray[i][j + 1], terrainColor, normal, vertices);
+                    addVertex(positionsArray[i + 1][j], terrainColor, normal, vertices);
+                    normal = calculateNormal(positionsArray[i + 1][j + 1], positionsArray[i][j + 1], positionsArray[i + 1][j]);
+                    normal.scl(-1f);
+                    addVertex(positionsArray[i + 1][j + 1], terrainColor, normal, vertices);
+                    addVertex(positionsArray[i][j + 1], terrainColor, normal, vertices);
+                    addVertex(positionsArray[i + 1][j], terrainColor, normal, vertices);
+
+                }else {
+                    Vector3 normal = calculateNormal(positionsArray[i][j], positionsArray[i][j + 1], positionsArray[i + 1][j + 1]);
+                    addVertex(positionsArray[i][j], testColor, normal, vertices);
+                    addVertex(positionsArray[i][j + 1], testColor, normal, vertices);
+                    addVertex(positionsArray[i + 1][j], testColor, normal, vertices);
+                    normal = calculateNormal(positionsArray[i + 1][j + 1], positionsArray[i][j + 1], positionsArray[i + 1][j]);
+                    normal.scl(-1f);
+                    addVertex(positionsArray[i + 1][j + 1], testColor, normal, vertices);
+                    addVertex(positionsArray[i][j + 1], testColor, normal, vertices);
+                    addVertex(positionsArray[i + 1][j], testColor, normal, vertices);
+
+                }
             }
         }
         float[] result = new float[vertices.size()];
@@ -222,17 +258,17 @@ public class OsmBaseObject {
         int beginY = getBeginY(bound);
         int endY = getEndY(bound);
 
-        Vector3 result[][] = new Vector3[COLUMNS][];
+        Vector3 result[][] = new Vector3[endX-beginX+1][];
 
-        for(int i = 0 ; i <COLUMNS;i++ ){
-            result[i]= new Vector3[COLUMNS];
+        for(int i = 0 ; i <endX-beginX+1;i++ ){
+            result[i]= new Vector3[endY-beginY+1];
         }
 
-        for (int i = beginX ; i <= endX ; i++){
-            for (int j = beginY ; j <= endY ; j++){
-                float posX = generateTerrainVertexCoord(i,beginX,endX);
-                float posY = generateTerrainVertexCoord(j,beginY,endY);
-                float posZ = generateTerrainVertexHeight(hgtArray[i][j]);
+        for (int i = 0 ; i <= endX-beginX ; i++){
+            for (int j = 0 ; j <= endY-beginY ; j++){
+                float posX = generateTerrainVertexCoord(beginX+i,beginX,endX);
+                float posY = generateTerrainVertexCoord(beginY+j,beginY,endY);
+                float posZ = generateTerrainVertexHeight(hgtArray[beginX+i][beginY+j]);
                 result[i][j] = new Vector3(posX,posY,posZ);
             }
         }
