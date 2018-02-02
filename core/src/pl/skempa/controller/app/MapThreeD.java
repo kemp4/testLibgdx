@@ -1,13 +1,15 @@
 package pl.skempa.controller.app;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.input.GestureDetector;
 
 //import pl.skempa.controller.CameraController;
 //import pl.skempa.controller.CameraControllerImpl;
-import java.io.InputStream;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector3;
 
 import pl.skempa.controller.input.MyInputProcessor;
 import pl.skempa.model.Model;
@@ -18,8 +20,9 @@ import pl.skempa.view.View;
 /**
  * class for testing libgdx features
  */
-public class LibgdxTest extends ApplicationAdapter implements Controller{
+public class Main extends ApplicationAdapter implements Controller{
 
+	private static final float VELOCITY = 0.1f;
 	View view;
 	Model model;
 
@@ -47,9 +50,33 @@ public class LibgdxTest extends ApplicationAdapter implements Controller{
 
 	@Override
 	public void render () {
+		checkKeys();
 		model.update();
 		view.render();
+
 	}
+
+	private void checkKeys() {
+		Vector3 trans = new Vector3(0,0,0);
+		if (Gdx.input.isKeyPressed (Input.Keys.LEFT)){
+			Vector3 front = new Vector3(model.getCamera().direction);
+			trans = front.scl(VELOCITY).rotate(Vector3.Z,90);
+		}
+		if (Gdx.input.isKeyPressed (Input.Keys.RIGHT)){
+			Vector3 front = new Vector3(model.getCamera().direction);
+			trans = front.scl(-VELOCITY).rotate(Vector3.Z,90);
+		}
+		if (Gdx.input.isKeyPressed (Input.Keys.UP)){
+			Vector3 front = new Vector3(model.getCamera().direction);
+			trans = front.scl(VELOCITY);
+		}
+		if (Gdx.input.isKeyPressed (Input.Keys.DOWN)){
+			Vector3 front = new Vector3(model.getCamera().direction);
+			trans = front.scl(-VELOCITY);
+		}
+		model.getCamera().translate(trans);
+	}
+
 	@Override
 	public void resize (int width, int height) {
 

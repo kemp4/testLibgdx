@@ -1,7 +1,7 @@
 # Blender MTL File: 'towerPower.blend'
 # Material Count: 1
 
-newmtl a1
+newmtl lamp
 Ns 749.019608
 Ka 0.392157 0.392157 0.392157
 Kd 1.000000 1.000000 1.000000
