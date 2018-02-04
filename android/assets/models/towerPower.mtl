@@ -1,7 +1,7 @@
 # Blender MTL File: 'towerPower.blend'
-# Material Count: 3
+# Material Count: 2
 
-newmtl Default_material
+newmtl Default_material.001
 Ns 749.019608
 Ka 0.392157 0.392157 0.392157
 Kd 1.000000 1.000000 1.000000
@@ -11,7 +11,7 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl mat-1
+newmtl mat-1.001
 Ns 100.000000
 Ka 0.200000 0.200000 0.200000
 Kd 0.592157 0.886275 1.000000
@@ -21,12 +21,3 @@ Ni 1.000000
 d 1.000000
 illum 2
 
-newmtl mat-5
-Ns 100.000000
-Ka 0.200000 0.200000 0.200000
-Kd 1.000000 0.521569 0.984314
-Ks 0.149020 0.149020 0.149020
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2

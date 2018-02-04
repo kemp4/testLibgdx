@@ -1,5 +1,9 @@
 package pl.skempa.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import pl.skempa.model.Model;
 import pl.skempa.view.render.ObjectsRenderer;
 import pl.skempa.controller.app.Controller;
@@ -34,5 +38,6 @@ public class MyView implements View {
     @Override
     public void render() {
         renderer.renderObjects(model);
+
     }
 }

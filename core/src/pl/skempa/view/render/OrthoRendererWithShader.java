@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.LinkedList;
@@ -49,6 +50,11 @@ public class OrthoRendererWithShader implements ObjectsRenderer {
         //this will push the triangles into the batch
 
         flush(model.getCameraMatrix());
+    }
+
+    @Override
+    public void renderStage(Stage stage) {
+
     }
 
     private void prepareData(Mesh mesh) {

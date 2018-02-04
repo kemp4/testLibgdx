@@ -31,7 +31,7 @@ void main()
 	//diffuse
 
 	vec3 lightColor = vec3(0.6,0.6,0.6);
-	vec3 lightPos= vec3(0,0,-10);
+	vec3 lightPos= vec3(-5,-5,-10);
 	vec3 norm = normalize(normal);// not neccesary
 	vec3 lightDir = normalize(lightPos - fragPos);
 	float diff = max(dot(norm, lightDir), 0.0);

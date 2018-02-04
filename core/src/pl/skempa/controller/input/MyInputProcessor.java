@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -18,6 +19,7 @@ import pl.skempa.model.Model;
 
 public class MyInputProcessor implements InputProcessor,GestureDetector.GestureListener  {
 
+    private static final float VELOCITY = 5f;
     //private Controller controller;
     private Model model;
     private final static float skala = 0.02f;
@@ -32,17 +34,9 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
 
     @Override
     public boolean keyDown(int keycode){
-        if (keycode == Input.Keys.LEFT){
-            model.rotateCamera(Vector3.Z, -10);
-        }
-        if (keycode == Input.Keys.RIGHT){
-            model.rotateCamera(Vector3.Z, 10);
-        }
-        if (keycode == Input.Keys.UP){
-            model.rotateCamera(Vector3.X, 10);
-        }
-        if (keycode == Input.Keys.DOWN){
-            model.rotateCamera(Vector3.X, -10);
+        if (keycode== (Input.Keys.ESCAPE)){
+            	model.getSettings().displayGUI=!model.getSettings().displayGUI;
+
         }
         return false;
     }
@@ -75,9 +69,26 @@ public class MyInputProcessor implements InputProcessor,GestureDetector.GestureL
         return false;
     }
 
+    int oldScreenX;
+    int oldScreenY;
+
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        int offsetX = oldScreenX-screenX;
+        int offsetY = oldScreenY-screenY;
+        oldScreenX = screenX;
+        oldScreenY = screenY;
 
+        Camera camera = model.getCamera();
+        if(offsetX!=0){
+            Vector3 temp = new Vector3(camera.up);
+            camera.rotate(temp,offsetX);
+        }
+        if(offsetY!=0){
+            Vector3 temp = new Vector3(camera.direction);
+            temp.rotate(camera.up,90);
+            camera.rotate(temp,-offsetY);
+        }
         return true;
     }
 

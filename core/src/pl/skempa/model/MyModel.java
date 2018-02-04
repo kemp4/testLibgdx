@@ -9,12 +9,11 @@ import com.badlogic.gdx.math.Vector3;
 import java.io.IOException;
 import java.util.Map;
 
+import pl.skempa.controller.app.Settings;
 import pl.skempa.model.camera.MapCamera;
-import pl.skempa.model.camera.MyMapCamera;
 import pl.skempa.model.camera.MyPerspCamera;
 import pl.skempa.model.object.ObjectsManager;
 import pl.skempa.model.object.ObjectsManagerImpl;
-import pl.skempa.model.object.rawdata.BaseObject;
 import pl.skempa.model.object.rawdata.OsmBaseObject;
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Scene;
@@ -28,7 +27,7 @@ import pl.skempa.util.PbfReader;
 public class MyModel implements Model {
     //TODO refactor name later
     private MapCamera camera;
-
+    private Settings settings;
     private ObjectsManager objectsManager;
 
 
@@ -85,7 +84,7 @@ public class MyModel implements Model {
 
 
         try {
-            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/LosAngeles.pbf").read());
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
             //dataSet.getWays().keySet().toArray().toString();
             return new OsmBaseObject().twoDimMeshFromWays(dataSet);
         }catch(Exception e) {
@@ -103,8 +102,9 @@ public class MyModel implements Model {
     public Scene getThreeDimScene() {
         try {
             PbfReader pbfReader = new PbfReader();
-            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/LosAngeles3.pbf").read());
-            return new OsmBaseObject().threeDimMeshFromWays(dataSet);
+            //dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/kato.pbf").read());
+            dataSet = pbfReader.parsePbf(Gdx.files.internal("mapFiles/"+settings.choosenMap+".pbf").read());
+            return new OsmBaseObject().threeDimWorldFromDatas(dataSet,settings);
         } catch (IOException e) {
             e.printStackTrace();
             return null; // :)
@@ -119,5 +119,13 @@ public class MyModel implements Model {
     @Override
     public void rotateCamera(Vector3 axis, int i) {
         camera.getLibgdxCamera().rotate(axis,i);
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 }
