@@ -3,7 +3,7 @@ package pl.skempa.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import pl.skempa.controller.app.LibgdxTest;
+import pl.skempa.controller.app.MapThreeD;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new LibgdxTest();
+                return new MapThreeD();
         }
 }

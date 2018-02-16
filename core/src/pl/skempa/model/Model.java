@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.List;
 import java.util.Map;
 
+import pl.skempa.controller.app.Settings;
 import pl.skempa.model.object.Building;
 import pl.skempa.model.object.rawdata.OsmRawDataSet;
 import pl.skempa.model.object.rawdata.Scene;
@@ -31,5 +32,6 @@ public interface Model {
     Camera getCamera();
 
     void rotateCamera(Vector3 axis, int i);
-
+    Settings getSettings();
+    void setSettings(Settings settings);
 }

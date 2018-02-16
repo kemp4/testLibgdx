@@ -25,7 +25,7 @@ public class ModelsReader {
     float[] vertices;
     int offset;
     public Mesh loadMesh(InputStream inputStream) throws IOException {
-        vertices = new float[100000];
+        vertices = new float[10000000];
         offset = 0;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line;

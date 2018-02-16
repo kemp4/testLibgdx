@@ -16,9 +16,9 @@ public class MyPerspCamera implements MapCamera {
     private static final float moveCameraSpeed = 0.002f;
 
     public MyPerspCamera(){
-        camera = new PerspectiveCamera(67,5,5);
+        camera = new PerspectiveCamera(60,1,1);
         camera.far=50f;
-        camera.near = 0.05f;
+        camera.near = 0.01f;
     }
 
     @Override

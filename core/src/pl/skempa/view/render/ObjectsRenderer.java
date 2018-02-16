@@ -1,5 +1,7 @@
 package pl.skempa.view.render;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import pl.skempa.model.Model;
 
 /**
@@ -10,4 +12,5 @@ public interface ObjectsRenderer {
 
     void renderObjects(Model model);
 
+    void renderStage(Stage stage);
 }
