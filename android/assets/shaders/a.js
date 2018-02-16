@@ -1,4 +1,4 @@
-var chuj = document.getElementById("a-campaign-board");
-chuj.style.display = 'none';
-var pizda = document.getElementsByClassName("blured")[0];
-pizda.classList.remove("blured");
+var c = document.getElementById("a-campaign-board");
+c.style.display = 'none';
+var p = document.getElementsByClassName("blured")[0];
+p.classList.remove("blured");
